@@ -1,5 +1,6 @@
 package com.cayzlh.framework.distributedlock.redis.lock;
 
+import com.cayzlh.framework.distributedlock.AbstractDistributedLock;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.RedisStringCommands;

@@ -1,7 +1,6 @@
 package com.cayzlh.framework.distributedlock.zookeeper.controller;
 
 import com.cayzlh.framework.distributedlock.zookeeper.annotation.ZkLock;
-import com.cayzlh.framework.distributedlock.zookeeper.lock.DistributedLock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

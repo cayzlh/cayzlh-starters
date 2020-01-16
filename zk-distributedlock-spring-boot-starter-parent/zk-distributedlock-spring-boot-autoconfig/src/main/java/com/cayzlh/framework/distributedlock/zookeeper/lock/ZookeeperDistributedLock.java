@@ -1,5 +1,6 @@
 package com.cayzlh.framework.distributedlock.zookeeper.lock;
 
+import com.cayzlh.framework.distributedlock.AbstractDistributedLock;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -49,6 +50,11 @@ public class ZookeeperDistributedLock extends AbstractDistributedLock implements
 				throw new RuntimeException(e);
 			}
 		}
+	}
+
+	@Override
+	public boolean lock(String key, long expire, int retryTimes, long sleepMillis) {
+		return false;
 	}
 
 	@Override

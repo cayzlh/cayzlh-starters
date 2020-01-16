@@ -1,6 +1,6 @@
 package com.cayzlh.framework.distributedlock.zookeeper;
 
-import com.cayzlh.framework.distributedlock.zookeeper.lock.DistributedLock;
+import com.cayzlh.framework.distributedlock.DistributedLock;
 import com.cayzlh.framework.distributedlock.zookeeper.lock.ZookeeperDistributedLock;
 import com.google.common.base.Charsets;
 import com.google.common.base.Strings;

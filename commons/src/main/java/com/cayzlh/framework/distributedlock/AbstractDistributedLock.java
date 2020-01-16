@@ -1,4 +1,4 @@
-package com.cayzlh.framework.distributedlock.redis.lock;
+package com.cayzlh.framework.distributedlock;
 
 public abstract class AbstractDistributedLock implements DistributedLock {
 

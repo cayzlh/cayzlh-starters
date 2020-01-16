@@ -2,7 +2,6 @@ package com.cayzlh.framework.distributedlock.redis;
 
 import com.cayzlh.framework.distributedlock.redis.annotations.RedisLock;
 import com.cayzlh.framework.distributedlock.redis.annotations.RedisLock.LockFailAction;
-import com.cayzlh.framework.distributedlock.redis.lock.DistributedLock;
 import java.lang.reflect.Method;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

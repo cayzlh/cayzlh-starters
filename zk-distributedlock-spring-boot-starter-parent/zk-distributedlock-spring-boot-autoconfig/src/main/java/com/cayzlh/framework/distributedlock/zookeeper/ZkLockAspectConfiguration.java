@@ -1,6 +1,6 @@
 package com.cayzlh.framework.distributedlock.zookeeper;
 
-import com.cayzlh.framework.distributedlock.zookeeper.lock.DistributedLock;
+import com.cayzlh.framework.distributedlock.DistributedLock;
 import com.cayzlh.framework.distributedlock.zookeeper.annotation.ZkLock;
 import java.lang.reflect.Method;
 import lombok.extern.slf4j.Slf4j;
