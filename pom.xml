@@ -13,7 +13,7 @@
   <description>the parent of all starters.</description>
 
   <modules>
-    <module>cayzlh-commons</module>
+    <module>commons</module>
     <module>base-spring-boot-starter-parent</module>
     <module>redis-distributedlock-spring-boot-starter-parent</module>
     <module>zk-distributedlock-spring-boot-starter-parent</module>
@@ -168,7 +168,7 @@
 
       <dependency>
         <groupId>com.cayzlh</groupId>
-        <artifactId>cayzlh-commons</artifactId>
+        <artifactId>commons</artifactId>
         <version>${version}</version>
       </dependency>
 
