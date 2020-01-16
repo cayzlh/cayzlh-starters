@@ -6,7 +6,7 @@ import com.cayzlh.framework.jwt.aop.RequiresGuestAnnotationHandler;
 import com.cayzlh.framework.jwt.aop.RequiresPermissionsAnnotationHandler;
 import com.cayzlh.framework.jwt.aop.RequiresRolesAnnotationHandler;
 import com.cayzlh.framework.jwt.aop.RequiresUserAnnotationHandler;
-import com.cayzlh.framework.jwt.util.RedisUtil;
+import com.cayzlh.framework.util.RedisUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

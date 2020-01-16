@@ -115,13 +115,9 @@
     </dependency>
 
     <dependency>
-      <groupId>com.dyuproject.protostuff</groupId>
-      <artifactId>protostuff-core</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.dyuproject.protostuff</groupId>
-      <artifactId>protostuff-runtime</artifactId>
+      <groupId>com.cayzlh</groupId>
+      <artifactId>commons</artifactId>
+      <optional>true</optional>
     </dependency>
 
   </dependencies>
