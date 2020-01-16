@@ -1,7 +1,6 @@
 package com.cayzlh.framework.distributedlock.zookeeper;
 
 import com.cayzlh.framework.distributedlock.DistributedLock;
-import com.cayzlh.framework.distributedlock.zookeeper.lock.ZookeeperDistributedLock;
 import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
 import java.util.List;
@@ -26,21 +25,21 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class ZkLockAutoConfiguration {
 
-    private final ZkConfig zk;
+    private final ZkConfig zkConfig;
 
     @Autowired
-    public ZkLockAutoConfiguration(ZkConfig zk) {
-        this.zk = zk;
+    public ZkLockAutoConfiguration(ZkConfig zkConfig) {
+        this.zkConfig = zkConfig;
     }
 
     @Bean
     public CuratorFramework curatorFramework() {
-        log.debug("zookeeper注册中心初始化，服务列表：{}", zk.getConnectString());
+        log.debug("zookeeper注册中心初始化，服务列表：{}", zkConfig.getConnectString());
         CuratorFramework curatorFramework = getCuratorFramework();
         curatorFramework.start();
         try {
             if (!curatorFramework
-                    .blockUntilConnected(zk.getMaxSleepTimeMilliseconds() * zk.getMaxRetries(),
+                    .blockUntilConnected(zkConfig.getMaxSleepTimeMilliseconds() * zkConfig.getMaxRetries(),
                             TimeUnit.MILLISECONDS)) {
                 curatorFramework.close();
                 throw new KeeperException.OperationTimeoutException();
@@ -53,16 +52,16 @@ public class ZkLockAutoConfiguration {
 
     private CuratorFramework getCuratorFramework() {
         CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder()
-                .connectString(zk.getConnectString()).retryPolicy(this.getRetryPolicy())
-                .namespace(zk.getNamespace());
-        if (zk.getSessionTimeoutMilliseconds() > 0) {
-            builder.sessionTimeoutMs(zk.getSessionTimeoutMilliseconds());
+                .connectString(zkConfig.getConnectString()).retryPolicy(this.getRetryPolicy())
+                .namespace(zkConfig.getNamespace());
+        if (zkConfig.getSessionTimeoutMilliseconds() > 0) {
+            builder.sessionTimeoutMs(zkConfig.getSessionTimeoutMilliseconds());
         }
-        if (zk.getConnectionTimeoutMilliseconds() > 0) {
-            builder.connectionTimeoutMs(zk.getConnectionTimeoutMilliseconds());
+        if (zkConfig.getConnectionTimeoutMilliseconds() > 0) {
+            builder.connectionTimeoutMs(zkConfig.getConnectionTimeoutMilliseconds());
         }
-        if (!Strings.isNullOrEmpty(zk.getDigest())) {
-            builder.authorization("digest", zk.getDigest().getBytes(Charsets.UTF_8)).aclProvider(
+        if (!Strings.isNullOrEmpty(zkConfig.getDigest())) {
+            builder.authorization("digest", zkConfig.getDigest().getBytes(Charsets.UTF_8)).aclProvider(
                     new ACLProvider() {
                         @Override
                         public List<ACL> getDefaultAcl() {
@@ -80,8 +79,8 @@ public class ZkLockAutoConfiguration {
 
     private RetryPolicy getRetryPolicy() {
         return new ExponentialBackoffRetry(
-                    zk.getBaseSleepTimeMilliseconds(),
-                    zk.getMaxRetries(), zk.getMaxSleepTimeMilliseconds());
+                    zkConfig.getBaseSleepTimeMilliseconds(),
+                    zkConfig.getMaxRetries(), zkConfig.getMaxSleepTimeMilliseconds());
     }
 
     @Bean

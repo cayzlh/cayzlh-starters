@@ -1,5 +1,6 @@
 package com.cayzlh.framework.distributedlock.redis;
 
+import com.cayzlh.framework.distributedlock.DistributedLock;
 import com.cayzlh.framework.distributedlock.redis.annotations.RedisLock;
 import com.cayzlh.framework.distributedlock.redis.annotations.RedisLock.LockFailAction;
 import java.lang.reflect.Method;

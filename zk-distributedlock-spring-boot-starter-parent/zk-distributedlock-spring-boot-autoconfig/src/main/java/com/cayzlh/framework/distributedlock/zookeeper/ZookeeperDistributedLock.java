@@ -1,4 +1,4 @@
-package com.cayzlh.framework.distributedlock.zookeeper.lock;
+package com.cayzlh.framework.distributedlock.zookeeper;
 
 import com.cayzlh.framework.distributedlock.AbstractDistributedLock;
 import java.util.Map;

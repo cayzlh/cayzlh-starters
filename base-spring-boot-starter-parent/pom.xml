@@ -24,12 +24,12 @@
       <dependency>
         <groupId>com.cayzlh</groupId>
         <artifactId>base-spring-boot-autoconfig</artifactId>
-        <version>${version}</version>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>com.cayzlh</groupId>
         <artifactId>base-spring-boot-starter</artifactId>
-        <version>${version}</version>
+        <version>${project.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

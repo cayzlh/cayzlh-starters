@@ -24,12 +24,12 @@
       <dependency>
         <groupId>com.cayzlh</groupId>
         <artifactId>redisson-distributedlock-spring-boot-autoconfig</artifactId>
-        <version>${version}</version>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>com.cayzlh</groupId>
         <artifactId>redisson-distributedlock-spring-boot-starter</artifactId>
-        <version>${version}</version>
+        <version>${project.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
