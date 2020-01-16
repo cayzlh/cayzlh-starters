@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.cayzlh.framework.distributedlock.redis.RedisDistributedLockAutoConfiguration,\
-  com.cayzlh.framework.distributedlock.redis.RedisDistributedLockAspectConfiguration
+  com.cayzlh.framework.distributedlock.redis.RedisDistributedLockAspectConfiguration,\
+  com.cayzlh.framework.config.CommonsConfiguration

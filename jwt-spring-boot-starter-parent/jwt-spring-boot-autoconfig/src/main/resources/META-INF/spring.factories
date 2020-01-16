@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
- com.cayzlh.framework.jwt.JwtAutoConfiguration
+ com.cayzlh.framework.jwt.JwtAutoConfiguration,\
+  com.cayzlh.framework.config.CommonsConfiguration

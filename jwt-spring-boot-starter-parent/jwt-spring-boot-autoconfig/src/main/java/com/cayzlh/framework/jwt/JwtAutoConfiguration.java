@@ -6,13 +6,9 @@ import com.cayzlh.framework.jwt.aop.RequiresGuestAnnotationHandler;
 import com.cayzlh.framework.jwt.aop.RequiresPermissionsAnnotationHandler;
 import com.cayzlh.framework.jwt.aop.RequiresRolesAnnotationHandler;
 import com.cayzlh.framework.jwt.aop.RequiresUserAnnotationHandler;
-import com.cayzlh.framework.util.RedisUtil;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 
 @Configuration
 @EnableConfigurationProperties(JwtProperties.class)
@@ -26,12 +22,6 @@ public class JwtAutoConfiguration {
     @Bean
     public JwtTokenUtil tokenUtil() {
         return new JwtTokenUtil(jwtProperties());
-    }
-
-    @Bean
-    @ConditionalOnBean(RedisTemplate.class)
-    public RedisUtil redisUtil(StringRedisTemplate stringRedisTemplate) {
-        return new RedisUtil(stringRedisTemplate);
     }
 
     @Bean
