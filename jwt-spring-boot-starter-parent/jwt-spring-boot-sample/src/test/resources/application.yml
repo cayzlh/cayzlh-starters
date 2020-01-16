@@ -1,0 +1,4 @@
+cayzlh:
+  framework:
+    jwt:
+      secret: _ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890#

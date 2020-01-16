@@ -1,0 +1,9 @@
+spring:
+  redis:
+    database: 2
+    host: localhost
+    password:
+    port: 6379
+    timeout: 180000
+    redisson:
+      config: classpath:redisson.json

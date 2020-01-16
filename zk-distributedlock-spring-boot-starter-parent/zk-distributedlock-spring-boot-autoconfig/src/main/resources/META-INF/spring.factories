@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.cayzlh.framework.distributedlock.zookeeper.ZkLockAutoConfiguration,\
+  com.cayzlh.framework.distributedlock.zookeeper.ZkLockAspectConfiguration

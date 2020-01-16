@@ -1,0 +1,1 @@
+providers: redis-distributedlock-spring-boot-autoconfig
