@@ -9,7 +9,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>cayzlh-commons</artifactId>
+  <artifactId>commons</artifactId>
   <name>starters::commons</name>
 
 </project>
