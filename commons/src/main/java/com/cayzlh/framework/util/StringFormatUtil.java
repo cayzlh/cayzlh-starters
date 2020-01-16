@@ -1,4 +1,4 @@
-package com.cayzlh.framework.base.util;
+package com.cayzlh.framework.util;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
