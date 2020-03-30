@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import org.assertj.core.util.Lists;
 
+@Deprecated
 public interface JwtUser {
 
     /**

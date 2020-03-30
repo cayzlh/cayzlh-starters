@@ -5,9 +5,9 @@ package com.cayzlh.framework.jwt.constant;
  * @link https://github.com/cayzlh
  * @date 2020/01/07.
  */
-public class HeaderField {
+public class HttpHeader {
 
-    private HeaderField() {
+    private HttpHeader() {
     }
 
     public static final String HEADER_AUTHENTICATION = "Authentication";

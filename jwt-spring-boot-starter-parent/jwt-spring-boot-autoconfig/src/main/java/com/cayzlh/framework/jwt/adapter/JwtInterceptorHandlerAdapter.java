@@ -1,6 +1,6 @@
 package com.cayzlh.framework.jwt.adapter;
 
-import static com.cayzlh.framework.jwt.constant.HeaderField.HEADER_AUTHENTICATION;
+import static com.cayzlh.framework.jwt.constant.HttpHeader.HEADER_AUTHENTICATION;
 
 import com.cayzlh.framework.jwt.context.JwtContextHolder;
 import javax.servlet.http.HttpServletRequest;
@@ -38,4 +38,5 @@ public class JwtInterceptorHandlerAdapter extends HandlerInterceptorAdapter {
         log.debug("remove authentication[{}] from thread local.", authentication);
         super.postHandle(request, response, handler, modelAndView);
     }
+
 }
