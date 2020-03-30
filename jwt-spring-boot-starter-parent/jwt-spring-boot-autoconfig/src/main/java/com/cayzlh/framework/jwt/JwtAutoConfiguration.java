@@ -1,6 +1,7 @@
 package com.cayzlh.framework.jwt;
 
 import com.cayzlh.framework.jwt.adapter.JwtInterceptorHandlerAdapter;
+import com.cayzlh.framework.jwt.aop.RequiresAuthenticationAnnotationHandler;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,11 @@ public class JwtAutoConfiguration {
     @Bean
     public JwtInterceptorConfig jwtInterceptorConfig() {
         return new JwtInterceptorConfig();
+    }
+
+    @Bean
+    public RequiresAuthenticationAnnotationHandler RequiresAuthenticationAnnotationHandler() {
+        return new RequiresAuthenticationAnnotationHandler(tokenUtil());
     }
 
 }
