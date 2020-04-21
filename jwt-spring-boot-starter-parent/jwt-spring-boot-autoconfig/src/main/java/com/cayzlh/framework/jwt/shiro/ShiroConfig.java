@@ -75,8 +75,6 @@ public class ShiroConfig {
 
     /**
      * JWT数据源验证
-     *
-     * @return
      */
     @Bean
     public JwtRealm jwtRealm(LoginRedisService loginRedisService) {
@@ -103,8 +101,6 @@ public class ShiroConfig {
 
     /**
      * 安全管理器配置
-     *
-     * @return
      */
     @Bean
     public SecurityManager securityManager(LoginRedisService loginRedisService) {
@@ -117,11 +113,6 @@ public class ShiroConfig {
 
     /**
      * ShiroFilterFactoryBean配置
-     *
-     * @param securityManager
-     * @param loginRedisService
-     * @param jwtProperties
-     * @return
      */
     @Bean(SHIRO_FILTER_NAME)
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager,
@@ -140,8 +131,6 @@ public class ShiroConfig {
 
     /**
      * 获取filter map
-     *
-     * @return
      */
     private Map<String, Filter> getFilterMap(ShiroLoginService shiroLoginService,
             LoginRedisService loginRedisService,
@@ -154,8 +143,6 @@ public class ShiroConfig {
 
     /**
      * Shiro路径权限配置
-     *
-     * @return
      */
     private Map<String, String> getFilterChainDefinitionMap(ShiroProperties shiroProperties) {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
@@ -218,15 +205,12 @@ public class ShiroConfig {
         log.debug("filterChainMap:{}", JSONUtil.toJsonStr(filterChainDefinitionMap));
 
         // 添加默认的filter
-        Map<String, String> newFilterChainDefinitionMap = addDefaultFilterDefinition(filterChainDefinitionMap);
-        return newFilterChainDefinitionMap;
+        return addDefaultFilterDefinition(filterChainDefinitionMap);
     }
 
     /**
      * 添加默认的filter权限过滤
      *
-     * @param filterChainDefinitionMap
-     * @return
      */
     private Map<String, String> addDefaultFilterDefinition(Map<String, String> filterChainDefinitionMap) {
         if (MapUtils.isEmpty(filterChainDefinitionMap)) {
@@ -238,8 +222,7 @@ public class ShiroConfig {
             String value = entry.getValue();
             String definition;
             String[] strings = value.split(",");
-            List<String> list = new ArrayList<>();
-            list.addAll(Arrays.asList(strings));
+            List<String> list = new ArrayList<>(Arrays.asList(strings));
             definition = String.join(",", list);
             map.put(key, definition);
         }
@@ -248,8 +231,6 @@ public class ShiroConfig {
 
     /**
      * ShiroFilter配置
-     *
-     * @return
      */
     @Bean
     public FilterRegistrationBean delegatingFilterProxy() {
@@ -275,8 +256,6 @@ public class ShiroConfig {
 
     /**
      * Enabling Shiro Annotations
-     *
-     * @return
      */
     @Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
