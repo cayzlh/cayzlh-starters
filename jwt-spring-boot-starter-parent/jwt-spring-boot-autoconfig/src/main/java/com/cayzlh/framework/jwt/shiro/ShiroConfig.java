@@ -3,9 +3,7 @@ package com.cayzlh.framework.jwt.shiro;
 import cn.hutool.json.JSONUtil;
 import com.cayzlh.framework.jwt.config.JwtProperties;
 import com.cayzlh.framework.jwt.config.ShiroPermissionProperties;
-import com.cayzlh.framework.jwt.shiro.JwtCredentialsMatcher;
-import com.cayzlh.framework.jwt.shiro.JwtFilter;
-import com.cayzlh.framework.jwt.shiro.JwtRealm;
+import com.cayzlh.framework.jwt.config.ShiroProperties;
 import com.cayzlh.framework.jwt.shiro.cache.LoginRedisService;
 import com.cayzlh.framework.jwt.shiro.exception.ShiroConfigException;
 import com.cayzlh.framework.jwt.shiro.service.ShiroLoginService;
@@ -149,7 +147,7 @@ public class ShiroConfig {
             LoginRedisService loginRedisService,
             JwtProperties jwtProperties) {
         Map<String, Filter> filterMap = new LinkedHashMap<>();
-        filterMap.put(JWT_FILTER_NAME, new JwtFilter(shiroLoginService, loginRedisService, jwtProperties));
+        filterMap.put(JWT_FILTER_NAME, new JwtFilter(shiroLoginService, jwtProperties, loginRedisService));
         return filterMap;
     }
 
@@ -159,7 +157,7 @@ public class ShiroConfig {
      *
      * @return
      */
-    private Map<String, String> getFilterChainDefinitionMap(JwtProperties.Shiro shiroProperties) {
+    private Map<String, String> getFilterChainDefinitionMap(ShiroProperties shiroProperties) {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 获取排除的路径
         List<String[]> anonList = shiroProperties.getAnon();

@@ -7,7 +7,6 @@ import com.cayzlh.framework.jwt.shiro.cache.LoginRedisService;
 import com.cayzlh.framework.jwt.shiro.service.ShiroLoginService;
 import com.cayzlh.framework.jwt.util.JwtTokenUtil;
 import com.cayzlh.framework.jwt.util.JwtUtil;
-import com.cayzlh.framework.util.RedisUtil;
 import java.time.Duration;
 import java.util.Date;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +16,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Ant丶
@@ -24,19 +24,21 @@ import org.springframework.context.annotation.Lazy;
  * @date 2020-04-21.
  */
 @Slf4j
+@Service
 public class ShiroLoginServiceImpl implements ShiroLoginService {
 
     @Lazy
-    @Autowired
-    private LoginRedisService loginRedisService;
+    private final LoginRedisService loginRedisService;
 
     @Lazy
-    @Autowired
-    private JwtProperties jwtProperties;
+    private final JwtProperties jwtProperties;
 
-    @Lazy
-    @Autowired
-    private RedisUtil redisUtil;
+    public ShiroLoginServiceImpl(
+            LoginRedisService loginRedisService,
+            JwtProperties jwtProperties) {
+        this.loginRedisService = loginRedisService;
+        this.jwtProperties = jwtProperties;
+    }
 
     @Override
     public void refreshToken(JwtToken jwtToken, HttpServletResponse httpServletResponse) {
