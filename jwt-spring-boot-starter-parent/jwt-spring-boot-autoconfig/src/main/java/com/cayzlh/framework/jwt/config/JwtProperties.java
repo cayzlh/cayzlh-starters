@@ -1,8 +1,7 @@
 package com.cayzlh.framework.jwt.config;
 
-import static com.cayzlh.framework.constant.CommonConstant.JWT_TOKEN_NAME;
+import static com.cayzlh.framework.constant.CommonsConstant.JWT_TOKEN_NAME;
 
-import java.util.List;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -65,11 +64,5 @@ public class JwtProperties {
      * 刷新token倒计时，默认10分钟，10*60=600
      */
     private Integer refreshTokenCountdown = 600;
-
-    /**
-     * shiro相关设置
-     */
-    @NestedConfigurationProperty
-    private ShiroProperties shiro;
 
 }

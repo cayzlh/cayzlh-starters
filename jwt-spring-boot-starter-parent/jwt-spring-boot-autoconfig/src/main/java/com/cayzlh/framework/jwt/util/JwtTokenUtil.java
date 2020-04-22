@@ -1,7 +1,7 @@
 package com.cayzlh.framework.jwt.util;
 
 import com.cayzlh.framework.jwt.config.JwtProperties;
-import com.cayzlh.framework.util.HttpServletRequestUtil;
+import com.cayzlh.framework.util.HttpServletUtil;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -16,25 +16,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenUtil {
 
-    private static String tokenName;
+    public static JwtProperties jwtProperties;
 
     public JwtTokenUtil(JwtProperties jwtProperties) {
-        tokenName = jwtProperties.getTokenName();
-        log.debug("tokenName:{}", tokenName);
+        JwtTokenUtil.jwtProperties = jwtProperties;
     }
 
     /**
      * 获取token名称
      */
     public static String getTokenName() {
-        return tokenName;
+        return jwtProperties.getTokenName();
     }
 
     /**
      * 从请求头或者请求参数中
      */
     public static String getToken() {
-        return getToken(HttpServletRequestUtil.getRequest());
+        return getToken(HttpServletUtil.getRequest());
     }
 
     /**
@@ -45,10 +44,10 @@ public class JwtTokenUtil {
             throw new IllegalArgumentException("request不能为空");
         }
         // 从请求头中获取token
-        String token = request.getHeader(tokenName);
+        String token = request.getHeader(getTokenName());
         if (StringUtils.isBlank(token)) {
             // 从请求参数中获取token
-            token = request.getParameter(tokenName);
+            token = request.getParameter(getTokenName());
         }
         return token;
     }

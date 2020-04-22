@@ -1,6 +1,7 @@
 package com.cayzlh.framework.jwt.util;
 
-import static com.cayzlh.framework.constant.CommonConstant.JWT_USERNAME;
+import static com.cayzlh.framework.constant.CommonsConstant.JWT_EXPIRE_SECOND;
+import static com.cayzlh.framework.constant.CommonsConstant.JWT_USERNAME;
 
 import cn.hutool.json.JSONUtil;
 import com.auth0.jwt.JWT;
@@ -8,6 +9,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.cayzlh.framework.jwt.config.JwtProperties;
+import com.cayzlh.framework.jwt.shiro.exception.JwtTokenException;
 import com.cayzlh.framework.util.UUIDUtil;
 import java.time.Duration;
 import java.util.Date;
@@ -27,6 +29,10 @@ public class JwtUtil {
         log.info(JSONUtil.toJsonStr(JwtUtil.jwtProperties));
     }
 
+    public static String generateToken(String username, String salt) {
+        return generateToken(username, salt, null);
+    }
+
     /**
      * 生成Token
      *
@@ -39,8 +45,7 @@ public class JwtUtil {
     public static String generateToken(String username, String salt, Duration expiredDuration) {
         if (StringUtils.isBlank(username)) {
             log.error("Failed to generate JWT token, username cannot be empty.");
-            // todo 抛出一个异常比较好
-            return null;
+            throw new JwtTokenException("failed to generate JWT token, username cannot be empty.");
         }
         log.debug("username: {}", username);
 
@@ -66,6 +71,7 @@ public class JwtUtil {
         Algorithm algorithm = Algorithm.HMAC256(salt);
         return JWT.create()
                 .withClaim(JWT_USERNAME, username)
+                .withClaim(JWT_EXPIRE_SECOND, expireSecond)
                 // jwt唯一id
                 .withJWTId(UUIDUtil.getUuid())
                 // 签发人
@@ -105,9 +111,6 @@ public class JwtUtil {
 
     /**
      * 解析token，获取token数据
-     *
-     * @param token
-     * @return token数据
      */
     public static DecodedJWT getJwtInfo(String token) {
         return JWT.decode(token);
@@ -115,14 +118,10 @@ public class JwtUtil {
 
     /**
      * 获取用户名
-     *
-     * @param token token
-     * @return 用户名
      */
     public static String getUsername(String token) {
         if (StringUtils.isBlank(token)){
-            // todo 异常
-            return null;
+            throw new JwtTokenException("JwtUtil#getUsername failed, the param token can not be null.");
         }
         DecodedJWT decodedJwt = getJwtInfo(token);
         return decodedJwt.getClaim(JWT_USERNAME).asString();

@@ -21,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -31,7 +32,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeviceInfo implements Serializable {
+@Accessors(chain = true)
+public class DeviceInfoBo implements Serializable {
     private static final long serialVersionUID = -5912785220335057555L;
 
     /**

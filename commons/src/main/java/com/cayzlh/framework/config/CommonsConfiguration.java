@@ -16,7 +16,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 public class CommonsConfiguration {
 
     @Bean
-    @ConditionalOnBean(StringRedisTemplate.class)
+//    @ConditionalOnBean(StringRedisTemplate.class)
     public RedisUtil redisUtil(StringRedisTemplate stringRedisTemplate) {
         return new RedisUtil(stringRedisTemplate);
     }

@@ -1,5 +1,6 @@
 package com.cayzlh.framework.exception;
 
+import com.cayzlh.framework.constant.ErrorCode;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,15 +13,17 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CommonException extends RuntimeException {
 
-    private Integer errorCode;
-    private String message;
+    protected Integer errorCode;
+    protected String message;
 
     public CommonException() {
         super();
+        this.errorCode = ErrorCode.BASE_ERROR_CODE;
     }
 
     public CommonException(String message) {
         super(message);
+        this.errorCode = ErrorCode.BASE_ERROR_CODE;
         this.message = message;
     }
 

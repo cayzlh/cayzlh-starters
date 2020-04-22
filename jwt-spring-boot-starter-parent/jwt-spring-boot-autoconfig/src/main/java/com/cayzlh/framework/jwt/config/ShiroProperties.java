@@ -2,6 +2,7 @@ package com.cayzlh.framework.jwt.config;
 
 import java.util.List;
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
@@ -10,6 +11,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  * @date 2020-04-21.
  */
 @Data
+@ConfigurationProperties(prefix = "cayzlh.framework.shiro")
 public class ShiroProperties {
 
     /**

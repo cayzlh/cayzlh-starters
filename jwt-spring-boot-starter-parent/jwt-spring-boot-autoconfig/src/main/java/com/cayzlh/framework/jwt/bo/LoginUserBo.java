@@ -9,6 +9,7 @@ package com.cayzlh.framework.jwt.bo;
 import java.io.Serializable;
 import java.util.Set;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * @author Ant丶
@@ -16,6 +17,7 @@ import lombok.Data;
  * @date 2020-04-21.
  */
 @Data
+@Accessors(chain = true)
 public class LoginUserBo implements Serializable {
 
     private Long id;

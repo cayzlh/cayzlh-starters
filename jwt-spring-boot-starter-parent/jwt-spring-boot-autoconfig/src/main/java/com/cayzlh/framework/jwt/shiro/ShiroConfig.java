@@ -119,12 +119,13 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager,
             ShiroLoginService shiroLoginService,
             LoginRedisService loginRedisService,
-            JwtProperties jwtProperties) {
+            JwtProperties jwtProperties,
+            ShiroProperties shiroProperties) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, Filter> filterMap = getFilterMap(shiroLoginService, loginRedisService, jwtProperties);
         shiroFilterFactoryBean.setFilters(filterMap);
-        Map<String, String> filterChainMap = getFilterChainDefinitionMap(jwtProperties.getShiro());
+        Map<String, String> filterChainMap = getFilterChainDefinitionMap(shiroProperties);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainMap);
         return shiroFilterFactoryBean;
     }
@@ -147,6 +148,9 @@ public class ShiroConfig {
      */
     private Map<String, String> getFilterChainDefinitionMap(ShiroProperties shiroProperties) {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        if (null == shiroProperties) {
+            throw new ShiroConfigException("shiro配置不可为空，请检查 cayzlh.framework.shiro 节点有没有配置");
+        }
         // 获取排除的路径
         List<String[]> anonList = shiroProperties.getAnon();
         log.debug("anonList:{}", JSONUtil.toJsonStr(anonList));

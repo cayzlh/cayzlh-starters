@@ -2,9 +2,9 @@ package com.cayzlh.framework.util;
 
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
-import com.cayzlh.framework.bo.ClientInfo;
-import com.cayzlh.framework.bo.DeviceInfo;
-import com.cayzlh.framework.constant.CommonConstant;
+import com.cayzlh.framework.bo.ClientInfoBo;
+import com.cayzlh.framework.bo.DeviceInfoBo;
+import com.cayzlh.framework.constant.CommonsConstant;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
@@ -21,51 +21,51 @@ public class ClientInfoUtil {
     /**
      * 获取用户客户端信息
      */
-    public static ClientInfo get(HttpServletRequest request){
-        String userAgent = request.getHeader(CommonConstant.USER_AGENT);
+    public static ClientInfoBo get(HttpServletRequest request){
+        String userAgent = request.getHeader(CommonsConstant.USER_AGENT);
         return get(userAgent);
     }
 
     /**
      * 获取用户客户端信息
      */
-    public static ClientInfo get(String userAgentString){
-        ClientInfo clientInfo = new ClientInfo();
+    public static ClientInfoBo get(String userAgentString){
+        ClientInfoBo clientInfoBo = new ClientInfoBo();
 
         UserAgent userAgent = UserAgentUtil.parse(userAgentString);
 
         // 浏览器名称
-        clientInfo.setBrowserName(userAgent.getBrowser().getName());
+        clientInfoBo.setBrowserName(userAgent.getBrowser().getName());
         // 浏览器版本
-        clientInfo.setBrowserVersion(userAgent.getVersion());
+        clientInfoBo.setBrowserVersion(userAgent.getVersion());
         // 浏览器引擎名称
-        clientInfo.setEngineName(userAgent.getEngine().getName());
+        clientInfoBo.setEngineName(userAgent.getEngine().getName());
         // 浏览器引擎版本
-        clientInfo.setEngineVersion(userAgent.getEngineVersion());
+        clientInfoBo.setEngineVersion(userAgent.getEngineVersion());
         // 用户操作系统名称
-        clientInfo.setOsName(userAgent.getOs().getName());
+        clientInfoBo.setOsName(userAgent.getOs().getName());
         // 用户操作平台名称
-        clientInfo.setPlatformName(userAgent.getPlatform().getName());
+        clientInfoBo.setPlatformName(userAgent.getPlatform().getName());
         // 是否是手机
-        clientInfo.setMobile(userAgent.isMobile());
+        clientInfoBo.setMobile(userAgent.isMobile());
 
         // 获取移动设备名称和机型
-        DeviceInfo deviceInfo = getDeviceInfo(userAgentString);
+        DeviceInfoBo deviceInfoBo = getDeviceInfo(userAgentString);
         // 设置移动设备名称和机型
-        clientInfo.setDeviceName(deviceInfo.getName());
-        clientInfo.setDeviceModel(deviceInfo.getModel());
+        clientInfoBo.setDeviceName(deviceInfoBo.getName());
+        clientInfoBo.setDeviceModel(deviceInfoBo.getModel());
 
         // ip
-        clientInfo.setIp(IpUtil.getRequestIp());
+        clientInfoBo.setIp(IpUtil.getRequestIp());
 
-        return clientInfo;
+        return clientInfoBo;
     }
 
     /**
      * 获取移动端用户设备的名称和机型
      */
-    public static DeviceInfo getDeviceInfo(String userAgentString){
-        DeviceInfo deviceInfo = new DeviceInfo();
+    public static DeviceInfoBo getDeviceInfo(String userAgentString){
+        DeviceInfoBo deviceInfoBo = new DeviceInfoBo();
         try {
 
             Matcher matcher = DEVICE_INFO_PATTERN.matcher(userAgentString);
@@ -84,11 +84,11 @@ public class ClientInfoUtil {
                 }
             }
 
-            deviceInfo.setName(name);
-            deviceInfo.setModel(model);
+            deviceInfoBo.setName(name);
+            deviceInfoBo.setModel(model);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return deviceInfo;
+        return deviceInfoBo;
     }
 }

@@ -1,6 +1,6 @@
 package com.cayzlh.framework.jwt.util;
 
-import com.cayzlh.framework.util.HttpServletRequestUtil;
+import com.cayzlh.framework.util.HttpServletUtil;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +21,7 @@ import org.springframework.util.MultiValueMap;
 public class HttpHeadersUtil {
 
     public static HttpHeaders generateHttpHeaders() {
-        HttpServletRequest httpServletRequest = HttpServletRequestUtil.getRequest();
+        HttpServletRequest httpServletRequest = HttpServletUtil.getRequest();
         Map<String, List<String>> headerMap = new HashMap<>();
         Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
         while (headerNames.hasMoreElements()) {

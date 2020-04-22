@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2020.  All rights reserved.
+ *
+ * BLOG:  https://blog.cayzlh.com
+ * GITHUB:  https://github.com/cayzlh
+ */
+
 package com.cayzlh.framework.constant;
 
 /**
@@ -5,11 +12,13 @@ package com.cayzlh.framework.constant;
  * @link https://github.com/cayzlh
  * @date 2020-04-21.
  */
-public interface CommonConstant {
+public interface CommonsConstant {
 
     String JWT_USERNAME = "username";
 
     String JWT_TOKEN_NAME = "token";
+
+    String JWT_EXPIRE_SECOND = "expireSecond";
 
     /**
      * 用户浏览器代理

@@ -1,7 +1,7 @@
 package com.cayzlh.framework.jwt.shiro.cache.impl;
 
 import cn.hutool.json.JSONUtil;
-import com.cayzlh.framework.bo.ClientInfo;
+import com.cayzlh.framework.bo.ClientInfoBo;
 import com.cayzlh.framework.constant.CommonRedisKey;
 import com.cayzlh.framework.jwt.config.JwtProperties;
 import com.cayzlh.framework.jwt.bo.JwtTokenRedisBo;
@@ -12,7 +12,7 @@ import com.cayzlh.framework.jwt.shiro.cache.LoginRedisService;
 import com.cayzlh.framework.jwt.shiro.convert.LoginUserBoConvert;
 import com.cayzlh.framework.jwt.shiro.convert.ShiroMapStructConvert;
 import com.cayzlh.framework.util.ClientInfoUtil;
-import com.cayzlh.framework.util.HttpServletRequestUtil;
+import com.cayzlh.framework.util.HttpServletUtil;
 import com.cayzlh.framework.util.RedisUtil;
 import java.time.Duration;
 import java.util.List;
@@ -65,13 +65,13 @@ public class LoginRedisServiceImpl implements LoginRedisService {
                 .jwtTokenToJwtTokenRedisVo(jwtToken);
 
         // 用户客户端信息
-        ClientInfo clientInfo = ClientInfoUtil.get(HttpServletRequestUtil.getRequest());
+        ClientInfoBo clientInfoBo = ClientInfoUtil.get(HttpServletUtil.getRequest());
 
         // Redis缓存登录用户信息
         // 将LoginSysUserVo对象复制到LoginSysUserRedisVo，使用mapstruct进行对象属性复制
         LoginUserRedisBo loginUserRedisBo = LoginUserBoConvert.INSTANCE.boToRedisBo(loginUserBo);
         loginUserRedisBo.setSalt(salt);
-        loginUserRedisBo.setClientInfo(clientInfo);
+        loginUserRedisBo.setClientInfoBo(clientInfoBo);
 
         // Redis过期时间与JwtToken过期时间一致
         Duration expireDuration = Duration.ofSeconds(jwtToken.getExpireSecond());

@@ -7,11 +7,10 @@
 
 package com.cayzlh.framework.jwt.bo;
 
-import com.cayzlh.framework.bo.ClientInfo;
+import com.cayzlh.framework.bo.ClientInfoBo;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * 登录用户Redis对象，后台使用
@@ -31,6 +30,6 @@ public class LoginUserRedisBo extends LoginUserBo {
     /**
      * 登录ip
      */
-    private ClientInfo clientInfo;
+    private ClientInfoBo clientInfoBo;
 
 }

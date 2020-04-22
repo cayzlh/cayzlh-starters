@@ -79,7 +79,6 @@ public class ZookeeperDistributedLock extends AbstractDistributedLock implements
 		return true;
 	}
 
-	// TODO: 使用watcher监控
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		String path = "/" + ROOT_PATH_LOCK;
