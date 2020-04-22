@@ -32,6 +32,12 @@
         <artifactId>jwt-spring-boot-starter</artifactId>
         <version>${project.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>com.cayzlh</groupId>
+        <artifactId>base-spring-boot-starter</artifactId>
+        <version>${project.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

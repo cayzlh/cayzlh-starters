@@ -17,8 +17,6 @@ import java.util.List;
 public class ProtoStuffSerializerUtil {
     /**
      * 序列化对象
-     * @param obj
-     * @return
      */
     public static <T> byte[] serialize(T obj) {
         if (obj == null) {
@@ -40,9 +38,6 @@ public class ProtoStuffSerializerUtil {
 
     /**
      * 反序列化对象
-     * @param paramArrayOfByte
-     * @param targetClass
-     * @return
      */
     public static <T> T deserialize(byte[] paramArrayOfByte, Class<T> targetClass) {
         if (paramArrayOfByte == null || paramArrayOfByte.length == 0) {
@@ -51,10 +46,8 @@ public class ProtoStuffSerializerUtil {
         T instance = null;
         try {
             instance = targetClass.newInstance();
-        } catch (InstantiationException  e1) {
+        } catch (InstantiationException | IllegalAccessException e1) {
             throw new RuntimeException("反序列化过程中依据类型创建对象失败!", e1);
-        } catch(IllegalAccessException e2){
-            throw new RuntimeException("反序列化过程中依据类型创建对象失败!", e2);
         }
         Schema<T> schema = RuntimeSchema.getSchema(targetClass);
         ProtostuffIOUtil.mergeFrom(paramArrayOfByte, instance, schema);
@@ -63,8 +56,6 @@ public class ProtoStuffSerializerUtil {
 
     /**
      * 序列化列表
-     * @param objList
-     * @return
      */
     public static <T> byte[] serializeList(List<T> objList) {
         if (objList == null || objList.isEmpty()) {
@@ -97,9 +88,6 @@ public class ProtoStuffSerializerUtil {
 
     /**
      * 反序列化列表
-     * @param paramArrayOfByte
-     * @param targetClass
-     * @return
      */
     public static <T> List<T> deserializeList(byte[] paramArrayOfByte, Class<T> targetClass) {
         if (paramArrayOfByte == null || paramArrayOfByte.length == 0) {

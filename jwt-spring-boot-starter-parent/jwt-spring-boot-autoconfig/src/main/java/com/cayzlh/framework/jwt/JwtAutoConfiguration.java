@@ -1,6 +1,5 @@
 package com.cayzlh.framework.jwt;
 
-import com.cayzlh.framework.jwt.adapter.JwtInterceptorHandlerAdapter;
 import com.cayzlh.framework.jwt.config.JwtProperties;
 import com.cayzlh.framework.jwt.shiro.cache.LoginRedisService;
 import com.cayzlh.framework.jwt.shiro.cache.impl.LoginRedisServiceImpl;
@@ -24,16 +23,6 @@ public class JwtAutoConfiguration {
     @Bean
     public JwtUtil tokenUtil() {
         return new JwtUtil(jwtProperties());
-    }
-
-    @Bean
-    public JwtInterceptorHandlerAdapter jwtInterceptorHandler(){
-        return new JwtInterceptorHandlerAdapter();
-    }
-
-    @Bean
-    public JwtInterceptorConfig jwtInterceptorConfig() {
-        return new JwtInterceptorConfig();
     }
 
     @Bean

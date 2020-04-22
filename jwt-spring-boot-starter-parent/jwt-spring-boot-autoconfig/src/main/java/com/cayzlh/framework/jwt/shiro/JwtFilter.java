@@ -47,12 +47,14 @@ public class JwtFilter extends AuthenticatingFilter {
 
     @Override
     protected AuthenticationToken createToken(ServletRequest servletRequest,
-            ServletResponse servletResponse) throws Exception {
+            ServletResponse servletResponse) {
         String token = JwtTokenUtil.getToken();
         if (StringUtils.isBlank(token)) {
+            // todo 换成可识别的exception
             throw new AuthenticationException("token不能为空");
         }
         if (JwtUtil.isExpired(token)) {
+            // todo 换成可识别的exception
             throw new AuthenticationException("JWT Token已过期,token:" + token);
         }
 
@@ -60,6 +62,7 @@ public class JwtFilter extends AuthenticatingFilter {
         if (jwtProperties.isRedisCheck() || jwtProperties.isSingleLogin()) {
             boolean redisExpired = loginRedisService.exists(token);
             if (!redisExpired) {
+                // todo 换成可识别的exception
                 throw new AuthenticationException("Redis Token不存在,token:" + token);
             }
         }

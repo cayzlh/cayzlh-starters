@@ -17,7 +17,10 @@
 package com.cayzlh.framework.bo;
 
 import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -25,6 +28,9 @@ import lombok.Data;
  * </p>
  **/
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DeviceInfo implements Serializable {
     private static final long serialVersionUID = -5912785220335057555L;
 

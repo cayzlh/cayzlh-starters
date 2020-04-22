@@ -38,7 +38,7 @@ public class RedisUtil {
 	/**
 	 * 删除key
 	 * 
-	 * @param key
+	 * @param key key
 	 */
 	public void delete(String key) {
 		stringRedisTemplate.delete(key);
@@ -47,7 +47,7 @@ public class RedisUtil {
 	/**
 	 * 批量删除key
 	 * 
-	 * @param keys
+	 * @param keys keys
 	 */
 	public void delete(Collection<String> keys) {
 		stringRedisTemplate.delete(keys);
@@ -56,8 +56,8 @@ public class RedisUtil {
 	/**
 	 * 序列化key
 	 * 
-	 * @param key
-	 * @return
+	 * @param key key
+	 * @return 序列化后的key
 	 */
 	public byte[] dump(String key) {
 		return stringRedisTemplate.dump(key);

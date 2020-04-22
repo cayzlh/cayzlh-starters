@@ -9,10 +9,10 @@ import org.mapstruct.factory.Mappers;
  * 使用mapstruct对象属性复制转换器
  **/
 @Mapper
-public interface ShiroMapstructConvert {
+public interface ShiroMapStructConvert {
 
-    ShiroMapstructConvert INSTANCE = Mappers.getMapper(
-            ShiroMapstructConvert.class);
+    ShiroMapStructConvert INSTANCE = Mappers.getMapper(
+            ShiroMapStructConvert.class);
 
     /**
      * JwtToken对象转换成JwtTokenRedisVo

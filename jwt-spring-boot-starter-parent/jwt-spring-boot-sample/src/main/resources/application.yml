@@ -1,4 +1,10 @@
 cayzlh:
   framework:
     jwt:
-      secret: secret12345sad324ferough3ughfilsdhfowehflhdfoiuhfwehdlndlnwklgh8
+      secret: 123456789
+      issuer: cayzlh
+      subject: token
+      audience: users
+      redis-check: true
+      single-login: true
+      salt-check: true

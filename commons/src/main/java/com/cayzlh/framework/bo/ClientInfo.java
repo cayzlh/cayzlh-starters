@@ -1,7 +1,10 @@
 package com.cayzlh.framework.bo;
 
 import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -9,6 +12,9 @@ import lombok.Data;
  * </p>
  **/
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClientInfo implements Serializable {
 
     private static final long serialVersionUID = -5549531244606897514L;
@@ -21,7 +27,7 @@ public class ClientInfo implements Serializable {
     /**
      * ip对应的地址
      */
-    private String addree;
+    private String address;
 
     /**
      * 浏览器名称
@@ -31,7 +37,7 @@ public class ClientInfo implements Serializable {
     /**
      * 浏览器版本
      */
-    private String browserversion;
+    private String browserVersion;
 
     /**
      * 浏览器引擎名称
@@ -59,7 +65,7 @@ public class ClientInfo implements Serializable {
     private boolean mobile;
 
     /**
-     * 移动端设备型号
+     * 移动端设备名
      */
     private String deviceName;
 

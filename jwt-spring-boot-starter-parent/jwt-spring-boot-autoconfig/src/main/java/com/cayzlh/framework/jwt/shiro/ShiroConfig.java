@@ -10,6 +10,7 @@ import com.cayzlh.framework.jwt.shiro.service.ShiroLoginService;
 import com.cayzlh.framework.util.IniUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -164,6 +165,7 @@ public class ShiroConfig {
         if (StringUtils.isNotBlank(definitions)) {
             Map<String, String> section = IniUtil.parseIni(definitions);
             log.debug("definitions:{}", JSONUtil.toJsonStr(section));
+            assert section != null;
             for (Map.Entry<String, String> entry : section.entrySet()) {
                 filterChainDefinitionMap.put(entry.getKey(), entry.getValue());
             }
@@ -248,7 +250,7 @@ public class ShiroConfig {
     @Bean
     public Authenticator authenticator(LoginRedisService loginRedisService) {
         ModularRealmAuthenticator authenticator = new ModularRealmAuthenticator();
-        authenticator.setRealms(Arrays.asList(jwtRealm(loginRedisService)));
+        authenticator.setRealms(Collections.singletonList(jwtRealm(loginRedisService)));
         authenticator.setAuthenticationStrategy(new FirstSuccessfulStrategy());
         return authenticator;
     }

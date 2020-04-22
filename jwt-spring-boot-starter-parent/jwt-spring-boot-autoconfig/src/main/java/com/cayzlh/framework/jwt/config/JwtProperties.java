@@ -37,11 +37,6 @@ public class JwtProperties {
     private Long expiration = 3600L;
 
     /**
-     * 是否启用鉴权功能
-     */
-    private boolean enableAuthentication = true;
-
-    /**
      * token名称，默认：token
      */
     private String tokenName = JWT_TOKEN_NAME;
@@ -69,7 +64,7 @@ public class JwtProperties {
     /**
      * 刷新token倒计时，默认10分钟，10*60=600
      */
-    private Integer refreshTokenCountdown;
+    private Integer refreshTokenCountdown = 600;
 
     /**
      * shiro相关设置

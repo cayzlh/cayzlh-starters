@@ -10,7 +10,7 @@ import com.cayzlh.framework.jwt.bo.LoginUserRedisBo;
 import com.cayzlh.framework.jwt.shiro.JwtToken;
 import com.cayzlh.framework.jwt.shiro.cache.LoginRedisService;
 import com.cayzlh.framework.jwt.shiro.convert.LoginUserBoConvert;
-import com.cayzlh.framework.jwt.shiro.convert.ShiroMapstructConvert;
+import com.cayzlh.framework.jwt.shiro.convert.ShiroMapStructConvert;
 import com.cayzlh.framework.util.ClientInfoUtil;
 import com.cayzlh.framework.util.HttpServletRequestUtil;
 import com.cayzlh.framework.util.RedisUtil;
@@ -18,6 +18,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
  * @link https://github.com/cayzlh
  * @date 2020-04-21.
  */
+@Slf4j
 @Service
 public class LoginRedisServiceImpl implements LoginRedisService {
 
@@ -44,10 +46,10 @@ public class LoginRedisServiceImpl implements LoginRedisService {
     @Override
     public void cacheLoginInfo(JwtToken jwtToken, LoginUserBo loginUserBo) {
         if (jwtToken == null) {
-            throw new IllegalArgumentException("jwtToken不能为空");
+            throw new IllegalArgumentException("jwtToken can not be null!");
         }
         if (loginUserBo == null) {
-            throw new IllegalArgumentException("loginSysUserVo不能为空");
+            throw new IllegalArgumentException("loginSysUserVo can not be null!");
         }
         // token
         String token = jwtToken.getToken();
@@ -59,7 +61,7 @@ public class LoginRedisServiceImpl implements LoginRedisService {
         String tokenMd5 = DigestUtils.md5Hex(token);
 
         // Redis缓存JWT Token信息
-        JwtTokenRedisBo jwtTokenRedisVo = ShiroMapstructConvert.INSTANCE
+        JwtTokenRedisBo jwtTokenRedisVo = ShiroMapStructConvert.INSTANCE
                 .jwtTokenToJwtTokenRedisVo(jwtToken);
 
         // 用户客户端信息

@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import org.apache.shiro.authc.HostAuthenticationToken;
 
 /**
@@ -34,7 +33,7 @@ public class JwtToken implements HostAuthenticationToken {
 
     private long expireSecond;
 
-    private Date expiredDate;
+    private Date expireDate;
 
     /**
      * 主要
@@ -62,7 +61,7 @@ public class JwtToken implements HostAuthenticationToken {
         Date expireDate = decodedJwt.getExpiresAt();
         return JwtToken.builder()
                 .username(username).token(token).host(IpUtil.getRequestIp())
-                .salt(salt).createDate(createDate).expireSecond(expireSecond).expiredDate(expireDate)
+                .salt(salt).createDate(createDate).expireSecond(expireSecond).expireDate(expireDate)
                 .build();
 
     }

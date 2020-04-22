@@ -3,6 +3,7 @@ package com.cayzlh.framework.util;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -13,6 +14,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * @link https://github.com/cayzlh
  * @date 2020-04-21.
  */
+@Slf4j
 public class IpUtil {
 
     private static final String UNKNOWN = "unknown";
@@ -24,7 +26,6 @@ public class IpUtil {
 
     /**
      * 获取请求用户的IP地址
-     * @return
      */
     public static String getRequestIp() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -34,8 +35,6 @@ public class IpUtil {
 
     /**
      * 获取请求用户的IP地址
-     * @param request
-     * @return
      */
     public static String getRequestIp(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
@@ -59,6 +58,7 @@ public class IpUtil {
         try {
             return InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
+            log.error("getLocalhostIp", e);
         }
         return null;
     }

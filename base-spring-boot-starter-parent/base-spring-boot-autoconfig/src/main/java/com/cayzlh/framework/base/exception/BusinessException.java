@@ -1,5 +1,6 @@
 package com.cayzlh.framework.base.exception;
 
+import com.cayzlh.framework.exception.CommonException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,14 +11,9 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class BusinessException extends RuntimeException {
-
-    private Integer code;
-
-    private String msg;
+public class BusinessException extends CommonException {
 
     public BusinessException(Integer code, String msg) {
-        this.code = code;
-        this.msg = msg;
+        super(code, msg);
     }
 }

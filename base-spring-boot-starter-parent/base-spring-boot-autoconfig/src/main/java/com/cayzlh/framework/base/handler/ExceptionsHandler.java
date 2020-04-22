@@ -6,12 +6,12 @@ import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE;
 
 import com.cayzlh.framework.base.common.BaseResponse;
 import com.cayzlh.framework.base.context.BaseContextHolder;
 import com.cayzlh.framework.base.exception.BusinessException;
+import com.cayzlh.framework.exception.CommonException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,6 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpClientErrorException.Unauthorized;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -46,7 +45,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class ExceptionsHandler {
 
     @ExceptionHandler({
-            BusinessException.class,
+            CommonException.class,
             NoHandlerFoundException.class,
             HttpRequestMethodNotSupportedException.class,
             HttpMediaTypeNotSupportedException.class,
@@ -63,6 +62,7 @@ public class ExceptionsHandler {
             BindException.class,
             AsyncRequestTimeoutException.class,
             HttpClientErrorException.class,
+            IllegalArgumentException.class,
             Exception.class
     })
     public final ResponseEntity<BaseResponse<?>> handleExceptions(HttpServletRequest req,
@@ -70,14 +70,14 @@ public class ExceptionsHandler {
         BaseResponse<?> response = new BaseResponse<>();
         HttpStatus status = HttpStatus.OK;
         String requestURI = req.getRequestURI();
-        if (e instanceof BusinessException) {
-            BusinessException be = (BusinessException) e;
+        if (e instanceof CommonException) {
+            CommonException ce = (CommonException) e;
             response.setCode(
-                    (null == be.getCode()) ? HttpStatus.INTERNAL_SERVER_ERROR.value()
-                            : be.getCode());
-            response.setMsg(be.getMsg());
+                    (null == ce.getErrorCode()) ? HttpStatus.INTERNAL_SERVER_ERROR.value()
+                            : ce.getErrorCode());
+            response.setMsg(ce.getMessage());
             response.setRequestId(BaseContextHolder.getRequestId());
-            log.error("request [{}] throw a BaseException: {}", requestURI, be.getMsg());
+            log.error("request [{}] throw a BaseException: {}", requestURI, ce.getMessage());
         } else if (e instanceof NoHandlerFoundException) {
             NoHandlerFoundException nfe = (NoHandlerFoundException) e;
             response.setCode(NOT_FOUND.value());
@@ -203,6 +203,12 @@ public class ExceptionsHandler {
             response.setCode(status.value());
             response.setMsg(httpClientErrorException.getStatusText());
             response.setRequestId(BaseContextHolder.getRequestId());
+        } else if (e instanceof IllegalArgumentException) {
+            response.setCode(INTERNAL_SERVER_ERROR.value());
+            response.setMsg(e.getMessage());
+            response.setRequestId(BaseContextHolder.getRequestId());
+            status = INTERNAL_SERVER_ERROR;
+            log.error("request [{}] throw a Exception: {}", requestURI, e.getMessage());
         } else {
             response.setCode(INTERNAL_SERVER_ERROR.value());
             response.setMsg(e.getMessage());

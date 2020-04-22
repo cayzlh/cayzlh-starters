@@ -43,32 +43,21 @@ public interface LoginRedisService {
 
     /**
      * 通过用户名称获取盐值
-     *
-     * @param username
-     * @return
      */
     String getSalt(String username);
 
     /**
      * 删除对应用户的Redis缓存
-     *
-     * @param token
-     * @param username
      */
     void deleteLoginInfo(String token, String username);
 
     /**
      * 判断token在redis中是否存在
-     *
-     * @param token
-     * @return
      */
     boolean exists(String token);
 
     /**
      * 删除用户所有登录缓存
-     *
-     * @param username
      */
     void deleteUserAllCache(String username);
 

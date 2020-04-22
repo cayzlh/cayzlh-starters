@@ -22,8 +22,7 @@ public class IniUtil {
         ini.setConfig(config);
         try {
             ini.load(new StringReader(string));
-            Profile.Section section = ini.get("");
-            return section;
+            return ini.get("");
         } catch (IOException e) {
             e.printStackTrace();
         }

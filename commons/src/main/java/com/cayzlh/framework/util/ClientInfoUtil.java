@@ -37,7 +37,7 @@ public class ClientInfoUtil {
         // 浏览器名称
         clientInfo.setBrowserName(userAgent.getBrowser().getName());
         // 浏览器版本
-        clientInfo.setBrowserversion(userAgent.getVersion());
+        clientInfo.setBrowserVersion(userAgent.getVersion());
         // 浏览器引擎名称
         clientInfo.setEngineName(userAgent.getEngine().getName());
         // 浏览器引擎版本
@@ -63,8 +63,6 @@ public class ClientInfoUtil {
 
     /**
      * 获取移动端用户设备的名称和机型
-     * @param userAgentString
-     * @return
      */
     public static DeviceInfo getDeviceInfo(String userAgentString){
         DeviceInfo deviceInfo = new DeviceInfo();
