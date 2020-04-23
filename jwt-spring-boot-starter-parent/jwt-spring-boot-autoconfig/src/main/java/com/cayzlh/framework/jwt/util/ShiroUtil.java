@@ -37,4 +37,13 @@ public class ShiroUtil {
             log.warn("shiro is not available.");
         }
     }
+
+    public static void logout() {
+        boolean enableShiro = shiroProperties.isEnable();
+        if (enableShiro) {
+            Subject subject = SecurityUtils.getSubject();
+            //注销
+            subject.logout();
+        }
+    }
 }

@@ -50,20 +50,17 @@ public class JwtFilter extends AuthenticatingFilter {
             ServletResponse servletResponse) {
         String token = JwtTokenUtil.getToken();
         if (StringUtils.isBlank(token)) {
-            // todo 换成可识别的exception
-            throw new AuthenticationException("token不能为空");
+            throw new AuthenticationException("failed to build jwtToken, the token string can not be empty.");
         }
         if (JwtUtil.isExpired(token)) {
-            // todo 换成可识别的exception
-            throw new AuthenticationException("JWT Token已过期,token:" + token);
+            throw new AuthenticationException("failed to build jwtToken, the token is expired.");
         }
 
         // 如果开启redis二次校验，或者设置为单个用户token登录，则先在redis中判断token是否存在
         if (jwtProperties.isRedisCheck() || jwtProperties.isSingleLogin()) {
             boolean redisExpired = loginRedisService.exists(token);
             if (!redisExpired) {
-                // todo 换成可识别的exception
-                throw new AuthenticationException("Redis Token不存在,token:" + token);
+                throw new AuthenticationException("the token does not exist in redis.");
             }
         }
 
@@ -86,10 +83,7 @@ public class JwtFilter extends AuthenticatingFilter {
         // 设置响应码为401或者直接输出消息
         String url = httpServletRequest.getRequestURI();
         log.error("onAccessDenied url：{}", url);
-        HttpHeaders httpHeaders = generateHttpHeaders();
-        throw HttpClientErrorException
-                .create(HttpStatus.UNAUTHORIZED, "authentication invalid.", httpHeaders,
-                        new byte[]{}, Charset.defaultCharset());
+        throw new AuthenticationException("authentication invalid.");
     }
 
     @Override
@@ -100,22 +94,18 @@ public class JwtFilter extends AuthenticatingFilter {
         if (this.isLoginRequest(request, response)) {
             return true;
         }
-        boolean allowed = false;
+        boolean allowed;
         try {
             allowed = executeLogin(request, response);
-        } catch (IllegalStateException e) { //not found any token
-            // todo 异常
-            log.error("Token不能为空", e);
         } catch (Exception e) {
-            // todo 异常
-            log.error("访问错误", e);
+            throw new AuthenticationException("executeLogin exception.");
         }
         return allowed || super.isPermissive(mappedValue);
     }
 
     @Override
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject,
-            ServletRequest request, ServletResponse response) throws Exception {
+            ServletRequest request, ServletResponse response) {
         String url = WebUtils.toHttp(request).getRequestURI();
         log.debug("鉴权成功,token:{},url:{}", token, url);
         // 刷新token
@@ -128,7 +118,7 @@ public class JwtFilter extends AuthenticatingFilter {
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e,
             ServletRequest request, ServletResponse response) {
-        log.error("登录失败，token:" + token + ",error:" + e.getMessage(), e);
+        log.error("登录失败，token: " + token + ",error: " + e.getMessage(), e);
         return false;
     }
 }

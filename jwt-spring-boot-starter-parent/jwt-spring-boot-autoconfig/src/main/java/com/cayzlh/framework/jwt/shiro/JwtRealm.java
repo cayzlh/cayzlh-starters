@@ -60,13 +60,11 @@ public class JwtRealm extends AuthorizingRealm {
         // 校验token
         JwtToken jwtToken = (JwtToken) authenticationToken;
         if (jwtToken == null) {
-            // todo 换成可识别的exception
-            throw new AuthenticationException("jwtToken不能为空");
+            throw new AuthenticationException("failed to verify token, jwtToken cannot be empty.");
         }
         String salt = jwtToken.getSalt();
         if (StringUtils.isBlank(salt)) {
-            // todo 换成可识别的exception
-            throw new AuthenticationException("salt不能为空");
+            throw new AuthenticationException("failed to verify salt, salt cannot be empty.");
         }
         return new SimpleAuthenticationInfo(
                 jwtToken,

@@ -11,6 +11,7 @@ import com.cayzlh.framework.jwt.util.JwtTokenUtil;
 import com.cayzlh.jwt.param.LoginParam;
 import com.cayzlh.jwt.service.LoginService;
 import com.cayzlh.jwt.vo.LoginUserTokenVo;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +39,13 @@ public class AppController {
         LoginUserTokenVo loginUserTokenVo = loginService.login(loginParam);
         response.setHeader(JwtTokenUtil.getTokenName(), loginUserTokenVo.getToken());
         return loginUserTokenVo;
+    }
+
+    @PostMapping("logout")
+    public String logout(HttpServletRequest request) {
+        loginService.logout(request);
+        return "退出成功";
+//        response.setHeader(JwtTokenUtil.getTokenName(), loginUserTokenVo.getToken());
     }
 
 }

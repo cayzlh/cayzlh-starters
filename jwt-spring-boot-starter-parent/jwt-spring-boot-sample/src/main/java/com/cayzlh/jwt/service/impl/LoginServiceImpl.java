@@ -11,6 +11,7 @@ import com.cayzlh.framework.base.exception.BusinessException;
 import com.cayzlh.framework.jwt.bo.LoginUserBo;
 import com.cayzlh.framework.jwt.shiro.JwtToken;
 import com.cayzlh.framework.jwt.shiro.cache.LoginRedisService;
+import com.cayzlh.framework.jwt.util.JwtTokenUtil;
 import com.cayzlh.framework.jwt.util.JwtUtil;
 import com.cayzlh.framework.jwt.util.SaltUtil;
 import com.cayzlh.framework.jwt.util.ShiroUtil;
@@ -117,6 +118,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public void logout(HttpServletRequest request) {
-
+        ShiroUtil.logout();
+        String token = JwtTokenUtil.getToken(request);
+        String username = JwtUtil.getUsername(token);
+        loginRedisService.deleteLoginInfo(token, username);
     }
 }

@@ -11,7 +11,7 @@ cayzlh:
     shiro:
       enable: true
       anon:
-        - /app/login
+        - /app/login, /app/logout
 spring:
   redis:
     host: localhost

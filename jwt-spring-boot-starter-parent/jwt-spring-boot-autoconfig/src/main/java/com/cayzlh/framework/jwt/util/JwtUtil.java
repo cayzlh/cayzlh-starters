@@ -1,6 +1,7 @@
 package com.cayzlh.framework.jwt.util;
 
 import static com.cayzlh.framework.constant.CommonsConstant.JWT_EXPIRE_SECOND;
+import static com.cayzlh.framework.constant.CommonsConstant.JWT_TOKEN_NAME;
 import static com.cayzlh.framework.constant.CommonsConstant.JWT_USERNAME;
 
 import cn.hutool.json.JSONUtil;
@@ -121,7 +122,7 @@ public class JwtUtil {
      */
     public static String getUsername(String token) {
         if (StringUtils.isBlank(token)){
-            throw new JwtTokenException("JwtUtil#getUsername failed, the param token can not be null.");
+            throw new JwtTokenException("Please check if the ["+JWT_TOKEN_NAME+"] field in the request header has a value.");
         }
         DecodedJWT decodedJwt = getJwtInfo(token);
         return decodedJwt.getClaim(JWT_USERNAME).asString();
