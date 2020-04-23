@@ -1,5 +1,7 @@
 package com.cayzlh.framework.util;
 
+import cn.hutool.json.JSONUtil;
+import java.io.PrintWriter;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +13,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 public class HttpServletUtil {
 
+    private static String UTF8 = "UTF-8";
+    private static String CONTENT_TYPE = "application/json";
+
+    private HttpServletUtil(){
+        throw new AssertionError();
+    }
+
     public static HttpServletRequest getRequest() {
         return ((ServletRequestAttributes) Objects
                 .requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
@@ -19,5 +28,14 @@ public class HttpServletUtil {
     public static HttpServletResponse getResponse() {
         return ((ServletRequestAttributes) Objects
                 .requireNonNull(RequestContextHolder.getRequestAttributes())).getResponse();
+    }
+
+    public static void printJson(HttpServletResponse response, Object object) throws Exception{
+        response.setCharacterEncoding(UTF8);
+        response.setContentType(CONTENT_TYPE);
+        PrintWriter printWriter = response.getWriter();
+        printWriter.write(JSONUtil.toJsonStr(object));
+        printWriter.flush();
+        printWriter.close();
     }
 }

@@ -1,7 +1,13 @@
-package com.cayzlh.framework.base.common;
+/*
+ * Copyright (c) 2020.  All rights reserved.
+ *
+ * BLOG:  https://blog.cayzlh.com
+ * GITHUB:  https://github.com/cayzlh
+ */
 
-import static com.cayzlh.framework.base.constant.ResponseCode.SUCCESS;
+package com.cayzlh.framework.common;
 
+import com.cayzlh.framework.constant.ResponseCode;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,18 +32,18 @@ public class BaseResponse<T> implements Serializable {
     private T data;
 
     public BaseResponse() {
-        this.code = SUCCESS;
+        this.code = ResponseCode.SUCCESS;
         this.msg = "completed success.";
     }
 
     public BaseResponse(T data) {
-        this.code = SUCCESS;
+        this.code = ResponseCode.SUCCESS;
         this.msg = "completed success.";
         this.data = data;
     }
 
     public BaseResponse(T data, String requestId) {
-        this.code = SUCCESS;
+        this.code = ResponseCode.SUCCESS;
         this.msg = "completed success.";
         this.requestId = requestId;
         this.data = data;

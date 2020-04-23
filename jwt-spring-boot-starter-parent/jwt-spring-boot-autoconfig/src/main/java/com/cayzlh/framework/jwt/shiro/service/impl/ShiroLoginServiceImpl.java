@@ -1,5 +1,6 @@
 package com.cayzlh.framework.jwt.shiro.service.impl;
 
+import cn.hutool.extra.servlet.ServletUtil;
 import com.cayzlh.framework.constant.CommonsConstant;
 import com.cayzlh.framework.jwt.config.JwtProperties;
 import com.cayzlh.framework.jwt.shiro.JwtToken;
@@ -7,6 +8,7 @@ import com.cayzlh.framework.jwt.shiro.cache.LoginRedisService;
 import com.cayzlh.framework.jwt.shiro.service.ShiroLoginService;
 import com.cayzlh.framework.jwt.util.JwtTokenUtil;
 import com.cayzlh.framework.jwt.util.JwtUtil;
+import com.cayzlh.framework.util.HttpServletUtil;
 import java.time.Duration;
 import java.util.Date;
 import javax.servlet.http.HttpServletResponse;
@@ -40,18 +42,19 @@ public class ShiroLoginServiceImpl implements ShiroLoginService {
     }
 
     @Override
-    public void refreshToken(JwtToken jwtToken, HttpServletResponse httpServletResponse) {
+    public String refreshToken(JwtToken jwtToken) {
+
         if (jwtToken == null) {
-            return;
+            return null;
         }
         String token = jwtToken.getToken();
         if (StringUtils.isBlank(token)) {
-            return;
+            return null;
         }
         // 判断是否刷新token
         boolean isRefreshToken = jwtProperties.isRefreshToken();
         if (!isRefreshToken) {
-            return;
+            return token;
         }
         // 获取过期时间
         Date expireDate = JwtUtil.getExpireDate(token);
@@ -59,16 +62,14 @@ public class ShiroLoginServiceImpl implements ShiroLoginService {
         Integer countdown = jwtProperties.getRefreshTokenCountdown();
         // 如果(当前时间+倒计时) > 过期时间，则刷新token
         boolean refresh = DateUtils.addSeconds(new Date(), countdown).after(expireDate);
-
         if (!refresh) {
-            return;
+            return token;
         }
 
+        boolean exists = loginRedisService.exists(token);
         // 如果token继续发往后台，则提示，此token已失效，请使用新token，不在返回新token，返回状态码：461
         // 如果Redis缓存中没有，JwtToken没有过期，则说明，已经刷新token
-        boolean exists = loginRedisService.exists(token);
         if (!exists) {
-            httpServletResponse.setStatus(CommonsConstant.JWT_INVALID_TOKEN_CODE);
             throw new AuthenticationException("token已无效，请使用已刷新的token");
         }
         String username = jwtToken.getUsername();
@@ -81,9 +82,6 @@ public class ShiroLoginServiceImpl implements ShiroLoginService {
         // 更新redis缓存
         loginRedisService.refreshLoginInfo(token, username, newJwtToken);
         log.debug("刷新token成功，原token:{}，新token:{}", token, newToken);
-        // 设置响应头
-        // 刷新token
-        httpServletResponse.setStatus(CommonsConstant.JWT_REFRESH_TOKEN_CODE);
-        httpServletResponse.setHeader(JwtTokenUtil.getTokenName(), newToken);
+        return newToken;
     }
 }

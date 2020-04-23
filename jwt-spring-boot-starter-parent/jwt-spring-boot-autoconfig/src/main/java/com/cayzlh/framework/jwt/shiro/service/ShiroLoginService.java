@@ -18,8 +18,7 @@ public interface ShiroLoginService {
      * 如果token继续发往后台，则提示，此token已失效，请使用新token，不在返回新token
      *
      * @param jwtToken token
-     * @param httpServletResponse httpServletResponse
      */
-    void refreshToken(JwtToken jwtToken, HttpServletResponse httpServletResponse);
+    String refreshToken(JwtToken jwtToken);
 
 }

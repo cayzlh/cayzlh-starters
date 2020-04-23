@@ -9,9 +9,8 @@ import static org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE;
 
-import com.cayzlh.framework.base.common.BaseResponse;
+import com.cayzlh.framework.common.BaseResponse;
 import com.cayzlh.framework.base.context.BaseContextHolder;
-import com.cayzlh.framework.base.exception.BusinessException;
 import com.cayzlh.framework.exception.CommonException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,6 +79,7 @@ public class ExceptionsHandler {
                             : ce.getErrorCode());
             response.setMsg(ce.getMessage());
             response.setRequestId(BaseContextHolder.getRequestId());
+            status = INTERNAL_SERVER_ERROR;
         } else if (e instanceof AuthenticationException) {
             AuthenticationException ae = (AuthenticationException) e;
             response.setCode(UNAUTHORIZED.value());
@@ -195,6 +195,7 @@ public class ExceptionsHandler {
         }
         log.error("request [{}] throw an exception: {}", requestURI, e.getMessage(), e);
         rsp.setIntHeader("HttpStatus", status.value());
+        rsp.setStatus(status.value());
         return new ResponseEntity<>(response, status);
     }
 

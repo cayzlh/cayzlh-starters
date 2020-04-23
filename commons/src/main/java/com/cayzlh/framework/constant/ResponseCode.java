@@ -1,4 +1,11 @@
-package com.cayzlh.framework.base.constant;
+/*
+ * Copyright (c) 2020.  All rights reserved.
+ *
+ * BLOG:  https://blog.cayzlh.com
+ * GITHUB:  https://github.com/cayzlh
+ */
+
+package com.cayzlh.framework.constant;
 
 /**
  * @author cayzlh

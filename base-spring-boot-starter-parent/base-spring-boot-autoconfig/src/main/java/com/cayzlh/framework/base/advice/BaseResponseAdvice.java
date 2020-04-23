@@ -2,7 +2,7 @@ package com.cayzlh.framework.base.advice;
 
 import cn.hutool.json.JSONUtil;
 import com.cayzlh.framework.base.annotation.ConvertIgnore;
-import com.cayzlh.framework.base.common.BaseResponse;
+import com.cayzlh.framework.common.BaseResponse;
 import com.cayzlh.framework.base.config.ConfigProperties;
 import com.cayzlh.framework.base.context.BaseContextHolder;
 import lombok.extern.slf4j.Slf4j;

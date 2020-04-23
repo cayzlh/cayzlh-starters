@@ -1,13 +1,12 @@
 package com.cayzlh.framework.jwt.shiro;
 
-import static com.cayzlh.framework.jwt.util.HttpHeadersUtil.generateHttpHeaders;
-
+import com.cayzlh.framework.common.BaseResponse;
 import com.cayzlh.framework.jwt.config.JwtProperties;
 import com.cayzlh.framework.jwt.shiro.cache.LoginRedisService;
 import com.cayzlh.framework.jwt.shiro.service.ShiroLoginService;
 import com.cayzlh.framework.jwt.util.JwtTokenUtil;
 import com.cayzlh.framework.jwt.util.JwtUtil;
-import java.nio.charset.Charset;
+import com.cayzlh.framework.util.HttpServletUtil;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +18,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.client.HttpClientErrorException;
 
 /**
  * @author Ant丶
@@ -50,40 +47,55 @@ public class JwtFilter extends AuthenticatingFilter {
             ServletResponse servletResponse) {
         String token = JwtTokenUtil.getToken();
         if (StringUtils.isBlank(token)) {
-            throw new AuthenticationException("failed to build jwtToken, the token string can not be empty.");
+            log.error("failed to build jwtToken, the token string can not be empty.");
+            return null;
         }
         if (JwtUtil.isExpired(token)) {
-            throw new AuthenticationException("failed to build jwtToken, the token is expired.");
+            log.error("failed to build jwtToken, the token is expired.");
+            return null;
         }
 
         // 如果开启redis二次校验，或者设置为单个用户token登录，则先在redis中判断token是否存在
         if (jwtProperties.isRedisCheck() || jwtProperties.isSingleLogin()) {
             boolean redisExpired = loginRedisService.exists(token);
             if (!redisExpired) {
-                throw new AuthenticationException("the token does not exist in redis.");
+                log.error("the token does not exist in redis.");
+                return null;
             }
         }
 
         String username = JwtUtil.getUsername(token);
         String salt;
-        if (jwtProperties.isSaltCheck()){
+        if (jwtProperties.isSaltCheck()) {
             salt = loginRedisService.getSalt(username);
-        }else{
+        } else {
             salt = jwtProperties.getSecret();
         }
         return JwtToken.build(token, username, salt, jwtProperties.getExpiration());
     }
 
     @Override
-    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) {
+    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse)
+            throws Exception {
         HttpServletRequest httpServletRequest = WebUtils.toHttp(servletRequest);
         HttpServletResponse httpServletResponse = WebUtils.toHttp(servletResponse);
         // 返回401
         httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         // 设置响应码为401或者直接输出消息
         String url = httpServletRequest.getRequestURI();
-        log.error("onAccessDenied url：{}", url);
-        throw new AuthenticationException("authentication invalid.");
+        log.error("access error. url：{}", url);
+        BaseResponse<?> response = getAccessDeniedResponse(url);
+        HttpServletUtil.printJson(httpServletResponse, response);
+        return false;
+    }
+
+    private BaseResponse<?> getAccessDeniedResponse(String url) {
+        BaseResponse<String> response = new BaseResponse<>();
+        response.setCode(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setMsg(
+                "authentication invalid, please try to log in again to get the correct token.");
+        response.setData("onAccessDenied url: " + url);
+        return response;
     }
 
     @Override
@@ -94,24 +106,25 @@ public class JwtFilter extends AuthenticatingFilter {
         if (this.isLoginRequest(request, response)) {
             return true;
         }
-        boolean allowed;
+        boolean allowed = false;
         try {
             allowed = executeLogin(request, response);
         } catch (Exception e) {
-            throw new AuthenticationException("executeLogin exception.");
+            log.error("access error.", e);
         }
         return allowed || super.isPermissive(mappedValue);
     }
 
     @Override
-    protected boolean onLoginSuccess(AuthenticationToken token, Subject subject,
+    protected boolean onLoginSuccess(AuthenticationToken authenticationToken, Subject subject,
             ServletRequest request, ServletResponse response) {
         String url = WebUtils.toHttp(request).getRequestURI();
-        log.debug("鉴权成功,token:{},url:{}", token, url);
+        log.debug("鉴权成功,token:{},url:{}", authenticationToken, url);
         // 刷新token
-        JwtToken jwtToken = (JwtToken) token;
-        HttpServletResponse httpServletResponse = WebUtils.toHttp(response);
-        shiroLoginService.refreshToken(jwtToken, httpServletResponse);
+        JwtToken jwtToken = (JwtToken) authenticationToken;
+        String newToken = shiroLoginService.refreshToken(jwtToken);
+        HttpServletResponse httpServletResponse = HttpServletUtil.getResponse();
+        httpServletResponse.setHeader(JwtTokenUtil.getTokenName(), newToken);
         return true;
     }
 
