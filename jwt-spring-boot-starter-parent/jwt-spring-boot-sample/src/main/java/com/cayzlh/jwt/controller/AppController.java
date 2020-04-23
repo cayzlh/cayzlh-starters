@@ -14,6 +14,7 @@ import com.cayzlh.jwt.vo.LoginUserTokenVo;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,6 +54,7 @@ public class AppController {
     }
 
     @PostMapping("test/{type}")
+    @RequiresPermissions({"app"})
     public String test(@PathVariable int type) {
         switch (type) {
             case 0 :
