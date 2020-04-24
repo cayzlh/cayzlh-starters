@@ -29,9 +29,9 @@ public class RedisDistributedLockAspectConfiguration {
 
 	private final DistributedLock distributedLock;
 	
-	private ExpressionParser parser = new SpelExpressionParser();
+	private final ExpressionParser parser = new SpelExpressionParser();
 
-	private LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
+	private final LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
 
 	@Autowired
 	public RedisDistributedLockAspectConfiguration(

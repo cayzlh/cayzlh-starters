@@ -4,7 +4,6 @@ import static com.cayzlh.framework.constant.CommonsConstant.JWT_TOKEN_NAME;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 @Data
 @ConfigurationProperties(prefix = "cayzlh.framework.jwt")

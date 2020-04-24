@@ -2,6 +2,7 @@ package com.cayzlh.framework.base.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * @author cayzlh
@@ -10,6 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "cayzlh.framework.base")
 @Data
+@Component
 public class ConfigProperties {
 
     /**
