@@ -12,6 +12,9 @@ cayzlh:
       enable: true
       anon:
         - /app/login, /app/logout
+    base:
+      log:
+        level: INFO
 spring:
   redis:
     host: localhost
