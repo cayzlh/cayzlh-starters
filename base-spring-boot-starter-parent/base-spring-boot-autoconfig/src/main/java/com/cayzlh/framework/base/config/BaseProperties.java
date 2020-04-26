@@ -3,7 +3,6 @@ package com.cayzlh.framework.base.config;
 import java.util.Set;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * @author cayzlh
@@ -23,17 +22,6 @@ public class BaseProperties {
      * 对lockback的配置
      */
     private Log log;
-
-    /**
-     * 操作日志配置
-     */
-    @NestedConfigurationProperty
-    private OperationLogConfig operationLog;
-
-    /**
-     * 登录日志配置
-     */
-    private LoginLogConfig loginLog;
 
     @Data
     public static class Log {
@@ -72,47 +60,6 @@ public class BaseProperties {
          * 排除路径
          */
         private Set<String> excludePaths;
-
-    }
-
-    /**
-     * 操作日志配置
-     */
-    @Data
-    public static class OperationLogConfig {
-
-        /**
-         * 是否启用
-         */
-        private boolean enable = true;
-
-        /**
-         * 排除路径
-         */
-        private Set<String> excludePaths;
-
-    }
-
-    /**
-     * 登录日志配置
-     */
-    @Data
-    public static class LoginLogConfig {
-
-        /**
-         * 是否启用
-         */
-        private boolean enable = false;
-
-        /**
-         * 登录路径
-         */
-        private String loginPath = "/login";
-
-        /**
-         * 登出路径
-         */
-        private String logoutPath = "/logout";
 
     }
 

@@ -49,7 +49,6 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.fusesource.jansi.Ansi;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -78,26 +77,12 @@ public abstract class BaseLogAop {
      */
     protected boolean enableRequestId;
 
-    /**
-     * Aop操作日志配置
-     */
-    protected BaseProperties.OperationLogConfig operationLogConfig;
-
-    /**
-     * Aop登录日志配置
-     */
-    protected BaseProperties.LoginLogConfig loginLogConfig;
-
     @Autowired
     public void setBaseConfigProperties(BaseProperties baseProperties) {
         logConfig = baseProperties.getLog();
         enableRequestId = logConfig.isEnableRequestId();
-        operationLogConfig = baseProperties.getOperationLog();
-        loginLogConfig = baseProperties.getLoginLog();
         log.debug("logConfig = {}", logConfig);
         log.debug("enableRequestId = {}", enableRequestId);
-        log.debug("operationLogConfig = {}", operationLogConfig);
-        log.debug("loginLogConfig = {}", loginLogConfig);
     }
 
     /**

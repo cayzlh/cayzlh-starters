@@ -24,7 +24,7 @@
 
 > 根据自己的开发习惯，将工作开发中常用的功能开发成若干`starter`，减少新项目的开发量，`spring-boot`项目引入之后只需要做少量的配置即可使用。
 
-**[GITHUB](https://github.com/cayzlh/cayzlh-starters)**
+**[GITHUB](https://github.com/cayzlh/cayzlh-starters)** ｜ **[MAVEN仓库](https://github.com/cayzlh/maven-repo)**
 
 ### 主要模块
 
@@ -78,15 +78,199 @@ cayzlh-starters
 
 ## 分模块介绍
 
-### commons
+### commons(通用模块)
+
+定义一些公共接口、常量类、工具类等
 
 ### base-spring-boot-starter
 
+> 提供基础功能的starter
+
+#### **自动封装返回结果**
+
+通过`ResponseBodyAdvice`实现返回结果的自动包装。
+
+*是否将转换成统一的返回格式 。*
+
+*如：{"msg":"completed success.","code":0,"data":"test1","requestId":"6892435279"}*
+
+可通以下配置开启：
+
+```yaml
+cayzlh:
+  framework:
+    base:
+      convertable: false # 默认为true
+```
+
+*举个栗子：*
+
+VO：
+
+```java
+@Data
+@Builder
+public class TestVo {
+
+    private Integer id;
+
+    private String name;
+
+}
+```
+
+controller：
+
+```java
+@GetMapping("/test3")
+public TestVo test3() {
+  return TestVo.builder().id(1).name("test3").build();
+}
+```
+
+请求结果：
+
+```java
+{
+  "requestId": "8275300804",
+  "code": 0,
+  "msg": "completed success.",
+  "data": {
+    "test": "test1"
+  }
+}
+```
+
+#### requestId
+
+为每个请求添加**requestId**，方便日后日志查找：
+
+```bash
+cat **.log | grep yourrequestId
+```
+
+当然，在请求结果里面也会包装以恶搞requestId字段，编码过程中也可以通过`BaseContextHolder`来获得：
+
+```java
+BaseContextHolder.getRequestId();
+```
+
+#### 日志
+
+- 除了上述的`requestId`之外，默认还打印所有请求的请求参数与返回结果。
+- 可通过配置文件配置日志输出级别
+- 可通过配置文件指定日志文件的保存位置
+- 打印每次请求的日志（请求参数、返回结果）
+
+**展示效果：**
+
+![image-20200426215822991](https://cdn.jsdelivr.net/gh/cayzlh/git-img-repository@master/2020/04/26/Jt6ACI.png)
+
+**部分配置：**
+
+```yaml
+cayzlh:
+  framework:
+    base:
+      log:
+        level: INFO	# 输出日志级别 默认为INFO
+        path: logs	# 日志输出路径 默认为logs
+        enable: true # 是否启用请求日志记录，默认开启
+        exclude-paths: # 排除不打印请求日志的请求路径
+         - /xxx
+         - /yyy
+        request-log-format: true	#是否格式化输出请求日志
+        response-log-format: true	# 是否格式话请求响应日志 
+```
+
+**由于日志记录是使用`Aop`实现的，使用的时候需要自己实现一个继承`BaseLogAop`类的`Aop`类，并开启项目的`Aop`功能**
+
+- 首先需要开启`AspectJ`能力，修改启动类，添加`@EnableAspectJAutoProxy`注解
+
+  ```java
+  @SpringBootApplication
+  @EnableAspectJAutoProxy
+  public class BaseSampleApplication {
+  
+      public static void main(String[] args) {
+          SpringApplication.run(BaseSampleApplication.class, args);
+      }
+  
+  }
+  ```
+
+- 实现一个`LogAop`类，并交给`Spring`管理，可参考：[LogAop](https://github.com/cayzlh/cayzlh-starters/blob/dev/base-spring-boot-starter-parent/base-spring-boot-sample/src/main/java/com/cayzlh/framewrok/base/sample/aop/LogAop.java)
+
+> 这一步的主要目的是需要使用方定义符合自己实际应用的切面，剩下的就交给`BaseLogAop`去完成。
+
+```java
+@Slf4j
+@Aspect
+@Component
+@ConditionalOnProperty(value = 
+                       {"cayzlh.framework.base.log.enable"},
+                       matchIfMissing = true)
+public class LogAop extends BaseLogAop {
+
+    private static final String POINTCUT =
+            "execution(public * com.cayzlh.jwt.controller.*.*(..))";
+
+    @Pointcut(POINTCUT)
+    private void log() {
+
+    }
+
+    @Around("log()")
+    @Override
+    public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        return super.handle(joinPoint);
+    }
+
+    @AfterThrowing(pointcut = "log()", throwing = "exception")
+    @Override
+    public void afterThrowing(JoinPoint joinPoint, Exception exception) {
+        super.handleAfterThrowing(exception);
+    }
+
+    @Override
+    protected void setRequestId(RequestInfo requestInfo) {
+        super.handleRequestId(requestInfo);
+    }
+
+    @Override
+    protected void getRequestInfo(RequestInfo requestInfo) {
+        super.handleRequestInfo(requestInfo);
+    }
+
+    @Override
+    protected void getResponseResult(Object result) {
+        super.handleResponseResult(result);
+    }
+
+    @Override
+    protected void finish(RequestInfo requestInfo, 
+                          OperationInfo operationInfo, Object result,
+            Exception exception) {
+        log.debug("do log aop finish..");
+        // 如果需要将请求信息保存到数据库之类的，就在这个地方写
+    }
+```
+
 ### jwt-spring-boot-starter
+
+> 提供`jwt`能力，`jwt`与`shiro`整合
+
+
 
 ### redis-distributedlock-spring-boot-starter
 
+----待补充----
+
 ### redisson-distributedlock-spring-boot-starter
 
+----待补充----
+
 ### zk-distributedlock-spring-boot-starter
+
+----待补充----
 
