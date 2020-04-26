@@ -37,11 +37,44 @@
 | redisson-distributedlock-spring-boot-starter | 基于redisson的分布式锁  |
 | zk-distributedlock-spring-boot-starter       | 基于zookeeper的分布式锁 |
 
-### 主要能力
-
 ### 项目结构
 
-### 项目环境
+```
+cayzlh-starters
+├── commons
+├── base-spring-boot-starter-parent
+│   ├── base-spring-boot-autoconfig
+│   ├── base-spring-boot-sample
+│   ├── base-spring-boot-starter
+│   └── pom.xml
+├── jwt-spring-boot-starter-parent
+│   ├── jwt-spring-boot-autoconfig
+│   ├── jwt-spring-boot-sample
+│   ├── jwt-spring-boot-starter
+│   └── pom.xml
+├── redis-distributedlock-spring-boot-starter-parent
+│   ├── pom.xml
+│   ├── redis-distributedlock-spring-boot-autoconfig
+│   ├── redis-distributedlock-spring-boot-sample
+│   └── redis-distributedlock-spring-boot-starter
+├── redisson-distributedlock-spring-boot-starter-parent
+│   ├── pom.xml
+│   ├── redisson-distributedlock-spring-boot-autoconfig
+│   ├── redisson-distributedlock-spring-boot-sample
+│   └── redisson-distributedlock-spring-boot-starter
+└── zk-distributedlock-spring-boot-starter-parent
+    ├── pom.xml
+    ├── zk-distributedlock-spring-boot-autoconfig
+    ├── zk-distributedlock-spring-boot-sample
+    └── zk-distributedlock-spring-boot-starter
+```
+
+### 项目构建环境
+
+| 中间件 | 版本  | 备注         |
+| ------ | ----- | ------------ |
+| JDK    | 1.8+  | JDK1.8及以上 |
+| Redis  | 5.0.6 |              |
 
 ## 分模块介绍
 
