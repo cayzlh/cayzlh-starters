@@ -6,7 +6,7 @@
 
 <p align="center">  
   <a href="https://github.com/cayzlh/cayzlh-starters/">
-    <img alt="cayzlh-starters version" src="https://img.shields.io/badge/spring--boot--plus-1.0.x-blue">
+    <img alt="cayzlh-starters version" src="https://img.shields.io/badge/cayzlh--starters-1.0.x-blue">
   </a>
   <a href="https://github.com/spring-projects/spring-boot">
     <img alt="spring boot version" src="https://img.shields.io/badge/spring%20boot-2.2.1.RELEASE-brightgreen">
