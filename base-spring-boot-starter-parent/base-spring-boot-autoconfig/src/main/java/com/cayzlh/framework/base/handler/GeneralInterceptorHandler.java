@@ -28,6 +28,7 @@ public class GeneralInterceptorHandler extends HandlerInterceptorAdapter {
 
         BaseContextHolder.setRequestId(requestId);
         String requestUri = request.getRequestURI();
+        BaseContextHolder.setRequestUrl(requestUri);
         log.info("request uri: {}", requestUri);
 
         return super.preHandle(request, response, handler);

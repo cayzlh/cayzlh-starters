@@ -2,6 +2,7 @@ package com.cayzlh.framewrok.base.sample.controller;
 
 import com.cayzlh.framework.base.annotation.ConvertIgnore;
 import com.cayzlh.framework.base.exception.BusinessException;
+import com.cayzlh.framewrok.base.sample.TestVo;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.validation.BindingResult;

@@ -102,7 +102,7 @@ public class BaseProperties {
         /**
          * 是否启用
          */
-        private boolean enable = true;
+        private boolean enable = false;
 
         /**
          * 登录路径

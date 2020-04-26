@@ -4,5 +4,6 @@ cayzlh:
   framework:
     base:
       log:
-        level: DEBUG
+        level: INFO
         path: logs
+        enable: true

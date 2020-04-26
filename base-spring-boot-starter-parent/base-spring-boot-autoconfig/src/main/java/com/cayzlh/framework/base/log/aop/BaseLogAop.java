@@ -48,6 +48,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.fusesource.jansi.Ansi;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -65,28 +67,6 @@ public abstract class BaseLogAop {
     protected static ThreadLocal<String> requestInfoStringThreadLocal = new ThreadLocal<>();
     protected static ThreadLocal<RequestInfo> requestInfoThreadLocal = new ThreadLocal<>();
     protected static ThreadLocal<OperationInfo> operationInfoThreadLocal = new ThreadLocal<>();
-
-
-    /**
-     * 请求ID
-     */
-    private static final String REQUEST_ID = "requestId";
-    /**
-     * 零
-     */
-    private static final int ZERO = 0;
-    /**
-     * 截取字符串的最多长度
-     */
-    private static final int MAX_LENGTH = 300;
-    /**
-     * 登录日志：登录类型
-     */
-    private static final int LOGIN_TYPE = 1;
-    /**
-     * 登录日志：登出类型
-     */
-    private static final int LOGOUT_TYPE = 2;
 
     /**
      * Aop日志配置
@@ -108,12 +88,7 @@ public abstract class BaseLogAop {
      */
     protected BaseProperties.LoginLogConfig loginLogConfig;
 
-    protected String contextPath;
-
-    public void setContextPath(String contextPath) {
-        this.contextPath = contextPath;
-    }
-
+    @Autowired
     public void setBaseConfigProperties(BaseProperties baseProperties) {
         logConfig = baseProperties.getLog();
         enableRequestId = logConfig.isEnableRequestId();
@@ -171,14 +146,11 @@ public abstract class BaseLogAop {
             // 请求路径 /api/foobar/add
             String path = request.getRequestURI();
             requestInfo.setPath(path);
-            // 获取实际路径 /foobar/add
-            String restfulPath = getRestfulPath(path);
-            requestInfo.setRestfulPath(restfulPath);
 
             // 排除路径
             Set<String> excludePaths = logConfig.getExcludePaths();
             // 请求路径
-            if (handleExcludePaths(excludePaths, restfulPath)) {
+            if (handleExcludePaths(excludePaths, path)) {
                 return joinPoint.proceed();
             }
 
@@ -292,14 +264,6 @@ public abstract class BaseLogAop {
             operationLogInfo.setRemark(operationLog.remark());
         }
         operationInfoThreadLocal.set(operationLogInfo);
-    }
-
-    private String getRestfulPath(String restfulPath) {
-        // 如果项目路径不为空，则去掉项目路径，获取实际访问路径
-        if (StringUtils.isNotBlank(contextPath)) {
-            return restfulPath.substring(contextPath.length());
-        }
-        return restfulPath;
     }
 
     protected boolean handleExcludePaths(Set<String> excludePaths, String realPath) {
@@ -515,6 +479,16 @@ public abstract class BaseLogAop {
             // 获取格式化后的响应结果
             String responseResultString = formatResponseResult(baseResponse);
             printResponseResult(code, responseResultString);
+        } else if (result instanceof String) {
+            BaseResponse<String> objectBaseResponse = new BaseResponse<>((String) result,
+                    BaseContextHolder.getRequestId());
+            String responseResultString = formatResponseResult(objectBaseResponse);
+            printResponseResult(objectBaseResponse.getCode(), responseResultString);
+        } else {
+            BaseResponse<Object> objectBaseResponse = new BaseResponse<>(result,
+                    BaseContextHolder.getRequestId());
+            String responseResultString = formatResponseResult(objectBaseResponse);
+            printResponseResult(objectBaseResponse.getCode(), responseResultString);
         }
     }
 

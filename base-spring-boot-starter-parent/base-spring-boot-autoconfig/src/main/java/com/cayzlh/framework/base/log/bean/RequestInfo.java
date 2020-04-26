@@ -34,12 +34,6 @@ public class RequestInfo implements Serializable {
     private String requestId;
 
     /**
-     * 请求实际路径
-     * /foobar/add
-     */
-    private String restfulPath;
-
-    /**
      * 请求IP地址
      */
     private String ip;
