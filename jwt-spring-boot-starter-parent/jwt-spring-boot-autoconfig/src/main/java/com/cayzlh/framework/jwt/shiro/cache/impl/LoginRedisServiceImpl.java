@@ -3,10 +3,10 @@ package com.cayzlh.framework.jwt.shiro.cache.impl;
 import cn.hutool.json.JSONUtil;
 import com.cayzlh.framework.bo.ClientInfoBo;
 import com.cayzlh.framework.constant.CommonRedisKey;
+import com.cayzlh.framework.jwt.bean.JwtTokenRedis;
+import com.cayzlh.framework.jwt.bean.LoginUserRedis;
 import com.cayzlh.framework.jwt.config.JwtProperties;
-import com.cayzlh.framework.jwt.bo.JwtTokenRedisBo;
-import com.cayzlh.framework.jwt.bo.LoginUserBo;
-import com.cayzlh.framework.jwt.bo.LoginUserRedisBo;
+import com.cayzlh.framework.jwt.bean.LoginUser;
 import com.cayzlh.framework.jwt.shiro.JwtToken;
 import com.cayzlh.framework.jwt.shiro.cache.LoginRedisService;
 import com.cayzlh.framework.jwt.shiro.convert.LoginUserBoConvert;
@@ -44,11 +44,11 @@ public class LoginRedisServiceImpl implements LoginRedisService {
     }
 
     @Override
-    public void cacheLoginInfo(JwtToken jwtToken, LoginUserBo loginUserBo) {
+    public void cacheLoginInfo(JwtToken jwtToken, LoginUser loginUser) {
         if (jwtToken == null) {
             throw new IllegalArgumentException("jwtToken can not be null!");
         }
-        if (loginUserBo == null) {
+        if (loginUser == null) {
             throw new IllegalArgumentException("loginSysUserVo can not be null!");
         }
         // token
@@ -56,12 +56,12 @@ public class LoginRedisServiceImpl implements LoginRedisService {
         // 盐值
         String salt = jwtToken.getSalt();
         // 登录用户名称
-        String username = loginUserBo.getUsername();
+        String username = loginUser.getUsername();
         // token md5值
         String tokenMd5 = DigestUtils.md5Hex(token);
 
         // Redis缓存JWT Token信息
-        JwtTokenRedisBo jwtTokenRedisVo = ShiroMapStructConvert.INSTANCE
+        JwtTokenRedis jwtTokenRedisVo = ShiroMapStructConvert.INSTANCE
                 .jwtTokenToJwtTokenRedisVo(jwtToken);
 
         // 用户客户端信息
@@ -69,7 +69,7 @@ public class LoginRedisServiceImpl implements LoginRedisService {
 
         // Redis缓存登录用户信息
         // 将LoginSysUserVo对象复制到LoginSysUserRedisVo，使用mapstruct进行对象属性复制
-        LoginUserRedisBo loginUserRedisBo = LoginUserBoConvert.INSTANCE.boToRedisBo(loginUserBo);
+        LoginUserRedis loginUserRedisBo = LoginUserBoConvert.INSTANCE.boToRedisBo(loginUser);
         loginUserRedisBo.setSalt(salt);
         loginUserRedisBo.setClientInfoBo(clientInfoBo);
 
@@ -101,7 +101,7 @@ public class LoginRedisServiceImpl implements LoginRedisService {
     @Override
     public void refreshLoginInfo(String oldToken, String username, JwtToken newJwtToken) {
         // 获取缓存的登录用户信息
-        LoginUserRedisBo loginUserRedisBo = getLoginUserRedisBo(username);
+        LoginUserRedis loginUserRedisBo = getLoginUserRedisBo(username);
         // 删除之前的token信息
         deleteLoginInfo(oldToken, username);
         // 缓存登录信息
@@ -109,16 +109,16 @@ public class LoginRedisServiceImpl implements LoginRedisService {
     }
 
     @Override
-    public LoginUserRedisBo getLoginUserRedisBo(String username) {
+    public LoginUserRedis getLoginUserRedisBo(String username) {
         if (StringUtils.isBlank(username)) {
             throw new IllegalArgumentException("username不能为空");
         }
         return JSONUtil.toBean(redisUtil.get(String.format(CommonRedisKey.LOGIN_USER, username)),
-                LoginUserRedisBo.class);
+                LoginUserRedis.class);
     }
 
     @Override
-    public LoginUserBo getLoginUserBo(String username) {
+    public LoginUser getLoginUserBo(String username) {
         if (StringUtils.isBlank(username)) {
             throw new IllegalArgumentException("username不能为空");
         }

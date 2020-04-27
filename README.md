@@ -78,7 +78,9 @@ cayzlh-starters
 
 ## 分模块介绍
 
-### commons(通用模块)
+### commons
+
+> 通用模块
 
 定义一些公共接口、常量类、工具类等
 
@@ -260,17 +262,147 @@ public class LogAop extends BaseLogAop {
 
 > 提供`jwt`能力，`jwt`与`shiro`整合
 
+引入这个`starter`即可使用默认的`jwt`与`shiro`能力。
 
+部分配置如下：
+
+```yaml
+cayzlh:
+  framework:
+    jwt:
+      secret: 123456789
+      issuer: cayzlh
+      subject: token
+      audience: users
+      redis-check: true
+      single-login: true
+      salt-check: true
+    shiro:
+      enable: true
+      anon:
+        - /app/login, /app/logout
+```
+
+部分API参考如下：
+
+```java
+JwtToken jwtToken = JwtToken.build(token,username,newSalt);
+
+ShiroUtil.login(jwtToken);
+
+loginRedisService.cacheLoginInfo(jwtToken, loginUser);
+log.debug("login success: {}", username);
+```
+
+**example:**[LoginServiceImpl.java](https://github.com/cayzlh/cayzlh-starters/blob/dev/jwt-spring-boot-starter-parent/jwt-spring-boot-sample/src/main/java/com/cayzlh/jwt/service/impl/LoginServiceImpl.java)
 
 ### redis-distributedlock-spring-boot-starter
 
-----待补充----
+> 用基于`redis`的分布式锁
+
+#### 必要的配置
+
+```yaml
+spring:
+  redis:
+    host: localhost
+    database: 2
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        min-idle: 0
+        max-idle: 8
+        max-wait: 10000ms
+      shutdown-timeout: 100ms
+```
+
+#### 在代码中使用
+
+使用默认的`key`：
+
+```java
+@RedisLock
+public String test1() throws InterruptedException {
+  Thread.sleep(10000);
+  return "test1";
+}
+```
+
+自定义`key`，支持`EL`表达式：
+
+```java
+@RedisLock(key = "'test121312312312'.concat(#num)")
+public String test2(@RequestParam Integer num) throws InterruptedException {
+  Thread.sleep(10000);
+  return "test2:"+num;
+}
+```
 
 ### redisson-distributedlock-spring-boot-starter
 
-----待补充----
+> 基于`redisson`的分布式锁
+
+#### 必要的配置
+
+```yaml
+spring:
+  redis:
+    database: 2
+    host: localhost
+    password:
+    port: 6379
+    timeout: 180000
+    redisson:
+      config: classpath:redisson.json
+```
+
+#### 在代码中使用
+
+默认`key`：
+
+```java
+@RedissonLock
+public String test1() throws InterruptedException {
+  Thread.sleep(10000);
+  return "test1";
+}
+```
+
+自定义`key`：
+
+```java
+@RedissonLock(key = "'test121312312312'.concat(#num)")
+public String test2(@RequestParam Integer num) throws InterruptedException {
+  Thread.sleep(10000);
+  return "test2:"+num;
+}
+```
 
 ### zk-distributedlock-spring-boot-starter
 
-----待补充----
+> 基于`zookeeper`的分布式锁
 
+#### 必要的配置
+
+```yaml
+cayzlh:
+  framework:
+    zk:
+      connect-string: 127.0.0.1:2181
+      namespace: distribute_lock
+```
+
+#### 在代码中使用
+
+```java
+@ZkLock
+public String test1() throws InterruptedException {
+  Thread.sleep(10000);
+  return "test1";
+}
+```
+
+---
+
+^_^

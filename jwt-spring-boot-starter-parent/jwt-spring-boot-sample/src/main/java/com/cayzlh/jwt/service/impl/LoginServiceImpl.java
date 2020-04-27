@@ -8,7 +8,7 @@
 package com.cayzlh.jwt.service.impl;
 
 import com.cayzlh.framework.base.exception.BusinessException;
-import com.cayzlh.framework.jwt.bo.LoginUserBo;
+import com.cayzlh.framework.jwt.bean.LoginUser;
 import com.cayzlh.framework.jwt.shiro.JwtToken;
 import com.cayzlh.framework.jwt.shiro.cache.LoginRedisService;
 import com.cayzlh.framework.jwt.util.JwtTokenUtil;
@@ -54,21 +54,21 @@ public class LoginServiceImpl implements LoginService {
             throw new BusinessException(1001, "用户名或密码错误");
         }
         // ... 其他登录判断
-        LoginUserBo loginUserBo = AppUserConvert.INSTANCE.appUserToLoginUserBo(appUser);
+        LoginUser loginUser = AppUserConvert.INSTANCE.appUserToLoginUserBo(appUser);
 
         AppRole role = getRole(username);
         if (null == role) {
             throw new BusinessException(1003, "角色不能为空");
         }
 
-        loginUserBo.setRoleId(role.getId()).setRoleName(role.getRoleName())
+        loginUser.setRoleId(role.getId()).setRoleName(role.getRoleName())
                 .setRoleCode(role.getRoleCode());
 
         Set<String> permissionCodes = getPermissionCodes(username);
         if (CollectionUtils.isEmpty(permissionCodes)) {
             throw new BusinessException(1002, "权限列表不能为空");
         }
-        loginUserBo.setPermissionCodes(permissionCodes);
+        loginUser.setPermissionCodes(permissionCodes);
 
         String newSalt = SaltUtil.getSalt(appUser.getSalt());
 
@@ -79,12 +79,12 @@ public class LoginServiceImpl implements LoginService {
 
         ShiroUtil.login(jwtToken);
 
-        loginRedisService.cacheLoginInfo(jwtToken, loginUserBo);
+        loginRedisService.cacheLoginInfo(jwtToken, loginUser);
         log.debug("login success: {}", username);
 
         LoginUserTokenVo loginUserTokenVo = new LoginUserTokenVo();
         loginUserTokenVo.setToken(token);
-        loginUserTokenVo.setLoginUser(loginUserBo);
+        loginUserTokenVo.setLoginUser(loginUser);
 
         return loginUserTokenVo;
     }

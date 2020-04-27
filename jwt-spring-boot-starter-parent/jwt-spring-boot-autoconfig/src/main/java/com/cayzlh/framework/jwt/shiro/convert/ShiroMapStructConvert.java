@@ -1,6 +1,6 @@
 package com.cayzlh.framework.jwt.shiro.convert;
 
-import com.cayzlh.framework.jwt.bo.JwtTokenRedisBo;
+import com.cayzlh.framework.jwt.bean.JwtTokenRedis;
 import com.cayzlh.framework.jwt.shiro.JwtToken;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -17,6 +17,6 @@ public interface ShiroMapStructConvert {
     /**
      * JwtToken对象转换成JwtTokenRedisVo
      */
-    JwtTokenRedisBo jwtTokenToJwtTokenRedisVo(JwtToken jwtToken);
+    JwtTokenRedis jwtTokenToJwtTokenRedisVo(JwtToken jwtToken);
 
 }

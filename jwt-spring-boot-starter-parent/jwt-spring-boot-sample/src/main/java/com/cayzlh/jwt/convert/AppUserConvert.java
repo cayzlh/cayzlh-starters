@@ -7,7 +7,7 @@
 
 package com.cayzlh.jwt.convert;
 
-import com.cayzlh.framework.jwt.bo.LoginUserBo;
+import com.cayzlh.framework.jwt.bean.LoginUser;
 import com.cayzlh.jwt.entity.AppUser;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -21,6 +21,6 @@ public interface AppUserConvert {
 
     AppUserConvert INSTANCE = Mappers.getMapper(AppUserConvert.class);
 
-    LoginUserBo appUserToLoginUserBo(AppUser appUser);
+    LoginUser appUserToLoginUserBo(AppUser appUser);
 
 }

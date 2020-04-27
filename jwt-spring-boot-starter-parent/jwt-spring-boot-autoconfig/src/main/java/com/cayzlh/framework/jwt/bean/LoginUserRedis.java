@@ -5,7 +5,7 @@
  * GITHUB:  https://github.com/cayzlh
  */
 
-package com.cayzlh.framework.jwt.bo;
+package com.cayzlh.framework.jwt.bean;
 
 import com.cayzlh.framework.bo.ClientInfoBo;
 import lombok.Builder;
@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = false)
-public class LoginUserRedisBo extends LoginUserBo {
+public class LoginUserRedis extends LoginUser {
 
     private static final long serialVersionUID = -3858850188055605806L;
 

@@ -1,7 +1,7 @@
 package com.cayzlh.framework.jwt.shiro.convert;
 
-import com.cayzlh.framework.jwt.bo.LoginUserBo;
-import com.cayzlh.framework.jwt.bo.LoginUserRedisBo;
+import com.cayzlh.framework.jwt.bean.LoginUser;
+import com.cayzlh.framework.jwt.bean.LoginUserRedis;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -16,6 +16,6 @@ public interface LoginUserBoConvert {
     /**
      * LoginSysUserVo对象转换成LoginSysUserRedisVo
      */
-    LoginUserRedisBo boToRedisBo(LoginUserBo loginUserBo);
+    LoginUserRedis boToRedisBo(LoginUser loginUser);
 
 }

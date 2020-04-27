@@ -4,7 +4,7 @@
  * BLOG:  https://blog.cayzlh.com
  * GITHUB:  https://github.com/cayzlh
  */
-package com.cayzlh.framework.jwt.bo;
+package com.cayzlh.framework.jwt.bean;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class LoginUserBo implements Serializable {
+public class LoginUser implements Serializable {
 
     private Long id;
 

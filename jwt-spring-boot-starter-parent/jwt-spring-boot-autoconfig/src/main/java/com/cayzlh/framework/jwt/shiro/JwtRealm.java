@@ -1,6 +1,6 @@
 package com.cayzlh.framework.jwt.shiro;
 
-import com.cayzlh.framework.jwt.bo.LoginUserRedisBo;
+import com.cayzlh.framework.jwt.bean.LoginUserRedis;
 import com.cayzlh.framework.jwt.shiro.cache.LoginRedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.SetUtils;
@@ -44,7 +44,7 @@ public class JwtRealm extends AuthorizingRealm {
         // 获取username
         String username = jwtToken.getUsername();
         // 获取登录用户角色权限信息
-        LoginUserRedisBo loginUserRedisBo = loginRedisService.getLoginUserRedisBo(username);
+        LoginUserRedis loginUserRedisBo = loginRedisService.getLoginUserRedisBo(username);
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         // 设置角色
         authorizationInfo.setRoles(SetUtils.hashSet(loginUserRedisBo.getRoleCode()));
