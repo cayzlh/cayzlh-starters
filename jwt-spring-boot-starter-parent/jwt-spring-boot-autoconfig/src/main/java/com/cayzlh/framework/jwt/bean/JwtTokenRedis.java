@@ -1,4 +1,11 @@
-package com.cayzlh.framework.jwt.bo;
+/*
+ * Copyright (c) 2020.  All rights reserved.
+ *
+ * BLOG:  https://blog.cayzlh.com
+ * GITHUB:  https://github.com/cayzlh
+ */
+
+package com.cayzlh.framework.jwt.bean;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,7 +18,7 @@ import lombok.experimental.Accessors;
  **/
 @Data
 @Builder
-public class JwtTokenRedisBo implements Serializable {
+public class JwtTokenRedis implements Serializable {
     private static final long serialVersionUID = 1831633309466775223L;
     /**
      * 登录ip

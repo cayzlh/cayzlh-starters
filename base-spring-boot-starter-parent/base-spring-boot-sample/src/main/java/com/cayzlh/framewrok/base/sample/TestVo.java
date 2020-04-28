@@ -1,4 +1,11 @@
-package com.cayzlh.framewrok.base.sample.controller;
+/*
+ * Copyright (c) 2020.  All rights reserved.
+ *
+ * BLOG:  https://blog.cayzlh.com
+ * GITHUB:  https://github.com/cayzlh
+ */
+
+package com.cayzlh.framewrok.base.sample;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

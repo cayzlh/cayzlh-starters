@@ -13,9 +13,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 public class HttpServletUtil {
 
-    private static String UTF8 = "UTF-8";
-    private static String CONTENT_TYPE = "application/json";
-
     private HttpServletUtil(){
         throw new AssertionError();
     }
@@ -31,7 +28,9 @@ public class HttpServletUtil {
     }
 
     public static void printJson(HttpServletResponse response, Object object) throws Exception{
+        String UTF8 = "UTF-8";
         response.setCharacterEncoding(UTF8);
+        String CONTENT_TYPE = "application/json";
         response.setContentType(CONTENT_TYPE);
         PrintWriter printWriter = response.getWriter();
         printWriter.write(JSONUtil.toJsonStr(object));

@@ -16,17 +16,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnClass({BaseResponseAdvice.class, ExceptionsHandler.class,
         GeneralInterceptorHandler.class, InterceptorConfig.class})
-@EnableConfigurationProperties(ConfigProperties.class)
+@EnableConfigurationProperties(BaseProperties.class)
 public class BaseFrameworkAutoConfiguration {
 
     @Bean
-    public ConfigProperties configProperties() {
-        return new ConfigProperties();
+    public BaseProperties baseProperties() {
+        return new BaseProperties();
     }
 
     @Bean
     public BaseResponseAdvice baseResponseAdvice() {
-        return new BaseResponseAdvice(configProperties());
+        return new BaseResponseAdvice(baseProperties());
     }
 
     @Bean

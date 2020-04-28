@@ -3,7 +3,6 @@ package com.cayzlh.framework.jwt.config;
 import java.util.List;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * @author Ant丶
@@ -32,7 +31,25 @@ public class ShiroProperties {
     /**
      * 权限配置集合
      */
-    @NestedConfigurationProperty
     private List<ShiroPermissionProperties> permission;
+
+    @Data
+    public static class ShiroPermissionProperties {
+
+        /**
+         * 路径
+         */
+        private String url;
+        /**
+         * 路径数组
+         */
+        private String[] urls;
+
+        /**
+         * 权限
+         */
+        private String permission;
+
+    }
 
 }

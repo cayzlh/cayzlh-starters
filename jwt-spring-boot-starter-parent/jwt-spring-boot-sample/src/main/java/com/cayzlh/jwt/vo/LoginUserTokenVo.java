@@ -7,7 +7,7 @@
 
 package com.cayzlh.jwt.vo;
 
-import com.cayzlh.framework.jwt.bo.LoginUserBo;
+import com.cayzlh.framework.jwt.bean.LoginUser;
 import com.cayzlh.framework.jwt.shiro.service.LoginToken;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -23,5 +23,5 @@ public class LoginUserTokenVo implements LoginToken {
 
     private String token;
 
-    private LoginUserBo loginUser;
+    private LoginUser loginUser;
 }

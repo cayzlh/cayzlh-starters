@@ -9,13 +9,17 @@ import static org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE;
 
+import cn.hutool.json.JSONUtil;
 import com.cayzlh.framework.common.BaseResponse;
 import com.cayzlh.framework.base.context.BaseContextHolder;
 import com.cayzlh.framework.exception.CommonException;
+import com.cayzlh.framework.util.AnsiUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.Ansi.Color;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
@@ -193,7 +197,9 @@ public class ExceptionsHandler {
             response.setRequestId(BaseContextHolder.getRequestId());
             status = INTERNAL_SERVER_ERROR;
         }
-        log.error("request [{}] throw an exception: {}", requestURI, e.getMessage(), e);
+        String ansiStr = AnsiUtil.getAnsi(Color.RED,
+                "request [{}] throw an exception: {}");
+        log.error(ansiStr, requestURI, e.getMessage(), e);
         rsp.setIntHeader("HttpStatus", status.value());
         rsp.setStatus(status.value());
         return new ResponseEntity<>(response, status);

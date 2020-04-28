@@ -1,7 +1,7 @@
 package com.cayzlh.framework.jwt.shiro.cache;
 
-import com.cayzlh.framework.jwt.bo.LoginUserRedisBo;
-import com.cayzlh.framework.jwt.bo.LoginUserBo;
+import com.cayzlh.framework.jwt.bean.LoginUserRedis;
+import com.cayzlh.framework.jwt.bean.LoginUser;
 import com.cayzlh.framework.jwt.shiro.JwtToken;
 
 /**
@@ -17,9 +17,9 @@ public interface LoginRedisService {
      * 缓存登录信息
      *
      * @param jwtToken jwtToken
-     * @param loginUserBo loginUserBo
+     * @param loginUser loginUserBo
      */
-    void cacheLoginInfo(JwtToken jwtToken, LoginUserBo loginUserBo);
+    void cacheLoginInfo(JwtToken jwtToken, LoginUser loginUser);
 
 
     /**
@@ -34,12 +34,12 @@ public interface LoginRedisService {
     /**
      * 通过用户名，从缓存中获取登录用户LoginSysUserRedisVo
      */
-    LoginUserRedisBo getLoginUserRedisBo(String username);
+    LoginUserRedis getLoginUserRedisBo(String username);
 
     /**
      * 获取登录用户对象
      */
-    LoginUserBo getLoginUserBo(String username);
+    LoginUser getLoginUserBo(String username);
 
     /**
      * 通过用户名称获取盐值

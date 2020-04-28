@@ -6,3 +6,8 @@ cayzlh:
       log:
         level: INFO
         path: logs
+        enable: true
+        exclude-paths: /xxx
+        request-log-format: true
+        response-log-format: true
+      convertable: true

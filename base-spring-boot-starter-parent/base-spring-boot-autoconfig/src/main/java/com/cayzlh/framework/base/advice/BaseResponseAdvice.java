@@ -2,11 +2,10 @@ package com.cayzlh.framework.base.advice;
 
 import cn.hutool.json.JSONUtil;
 import com.cayzlh.framework.base.annotation.ConvertIgnore;
-import com.cayzlh.framework.common.BaseResponse;
-import com.cayzlh.framework.base.config.ConfigProperties;
+import com.cayzlh.framework.base.config.BaseProperties;
 import com.cayzlh.framework.base.context.BaseContextHolder;
+import com.cayzlh.framework.common.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -25,17 +24,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 public class BaseResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Lazy
-    private final ConfigProperties configProperties;
+    private final BaseProperties baseProperties;
 
-    @Autowired
     public BaseResponseAdvice(
-            ConfigProperties configProperties) {
-        this.configProperties = configProperties;
+            BaseProperties baseProperties) {
+        this.baseProperties = baseProperties;
     }
 
     @Override
     public boolean supports(MethodParameter methodParameter, Class aClass) {
-        if (configProperties.getConvertable()) {
+        if (baseProperties.getConvertable()) {
             ConvertIgnore ignore = methodParameter.getMethodAnnotation(ConvertIgnore.class);
             return ignore == null;
         }
