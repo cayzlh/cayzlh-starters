@@ -6,7 +6,7 @@
 
   <groupId>com.cayzlh</groupId>
   <artifactId>cayzlh-starters</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 
   <packaging>pom</packaging>
   <name>starters</name>
@@ -35,6 +35,8 @@
     <fastjson.version>1.2.68</fastjson.version>
     <lombok.version>1.18.10</lombok.version>
     <jackson.version>2.10.3</jackson.version>
+    <swagger2.version>2.9.2</swagger2.version>
+    <knife4j.version>2.0.2</knife4j.version>
   </properties>
 
   <dependencyManagement>
@@ -224,6 +226,18 @@
         <groupId>org.fusesource.jansi</groupId>
         <artifactId>jansi</artifactId>
         <version>1.18</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger2</artifactId>
+        <version>${swagger2.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger-ui</artifactId>
+        <version>${swagger2.version}</version>
       </dependency>
 
       <dependency>

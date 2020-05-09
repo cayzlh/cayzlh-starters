@@ -3,6 +3,8 @@ package com.cayzlh.framewrok.base.sample.controller;
 import com.cayzlh.framework.base.annotation.ConvertIgnore;
 import com.cayzlh.framework.base.exception.BusinessException;
 import com.cayzlh.framewrok.base.sample.TestVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.validation.BindingResult;
@@ -18,14 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019/11/20.
  */
 @RestController
+@Api(value = "BaseSampleAPI", tags = {"BaseSample"})
 public class SampleController {
 
     @GetMapping("/test1")
+    @ApiOperation(value = "这个是test1", response = String.class)
     public String test1() {
         return "test1";
     }
 
     @GetMapping("/test2")
+    @ApiOperation(value = "这个是test2", response = Map.class)
     public Map test2() {
         Map<String, String> map = new HashMap<>();
         map.put("test", "test1");

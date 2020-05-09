@@ -2,7 +2,7 @@ package com.cayzlh.framework.base.advice;
 
 import cn.hutool.json.JSONUtil;
 import com.cayzlh.framework.base.annotation.ConvertIgnore;
-import com.cayzlh.framework.base.config.BaseProperties;
+import com.cayzlh.framework.base.config.properties.BaseProperties;
 import com.cayzlh.framework.base.context.BaseContextHolder;
 import com.cayzlh.framework.common.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +11,7 @@ import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  */
 @RestControllerAdvice
 @Slf4j
+@ControllerAdvice
 public class BaseResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Lazy
@@ -29,6 +31,21 @@ public class BaseResponseAdvice implements ResponseBodyAdvice<Object> {
     public BaseResponseAdvice(
             BaseProperties baseProperties) {
         this.baseProperties = baseProperties;
+    }
+
+    private static final String[] ignores = new String[]{
+            //过滤swagger相关的请求的接口，不然swagger会提示base-url被拦截
+            "/swagger-resources",
+            "/v2/api-docs"
+    };
+
+    private boolean ignoring(String uri) {
+        for (String string : ignores) {
+            if (uri.contains(string)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -44,6 +61,11 @@ public class BaseResponseAdvice implements ResponseBodyAdvice<Object> {
     public Object beforeBodyWrite(Object body, MethodParameter methodParameter, MediaType mediaType,
             Class aClass, ServerHttpRequest serverHttpRequest,
             ServerHttpResponse serverHttpResponse) {
+        //判断url是否需要拦截
+        if (this.ignoring(serverHttpRequest.getURI().toString())) {
+            return body;
+        }
+
         if (body instanceof BaseResponse) {
             return body;
         } else if (body instanceof String) {

@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CommonException extends RuntimeException {
 
+    private static final long serialVersionUID = 7669695159869116135L;
     protected Integer errorCode;
     protected String message;
 
