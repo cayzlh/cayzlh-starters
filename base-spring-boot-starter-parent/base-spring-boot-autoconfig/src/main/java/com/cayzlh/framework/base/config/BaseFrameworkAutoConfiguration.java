@@ -61,4 +61,8 @@ public class BaseFrameworkAutoConfiguration {
         return new BaseWebMvcConfig(baseProperties);
     }
 
+    @Bean
+    public BaseCorsConfig baseCorsConfig(BaseProperties baseProperties) {
+        return new BaseCorsConfig(baseProperties);
+    }
 }

@@ -3,6 +3,8 @@ server:
 cayzlh:
   framework:
     base:
+      cors:
+        enable: true
       log:
         level: INFO
         path: logs
