@@ -28,4 +28,9 @@ public interface ErrorCode {
      */
     int JWT_TOKEN_ERROR = BASE_ERROR_CODE + 2;
 
+    /**
+     * swagger 配置异常
+     */
+    int SWAGGER_ERROR = BASE_ERROR_CODE + 3;
+
 }

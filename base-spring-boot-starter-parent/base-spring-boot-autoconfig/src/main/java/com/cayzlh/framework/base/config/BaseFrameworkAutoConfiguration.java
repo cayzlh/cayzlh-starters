@@ -1,6 +1,8 @@
 package com.cayzlh.framework.base.config;
 
 import com.cayzlh.framework.base.advice.BaseResponseAdvice;
+import com.cayzlh.framework.base.config.properties.BaseProperties;
+import com.cayzlh.framework.base.config.properties.SwaggerProperties;
 import com.cayzlh.framework.base.handler.ExceptionsHandler;
 import com.cayzlh.framework.base.handler.GeneralInterceptorHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -25,6 +27,11 @@ public class BaseFrameworkAutoConfiguration {
     }
 
     @Bean
+    public SwaggerProperties swaggerProperties() {
+        return new SwaggerProperties();
+    }
+
+    @Bean
     public BaseResponseAdvice baseResponseAdvice() {
         return new BaseResponseAdvice(baseProperties());
     }
@@ -42,6 +49,16 @@ public class BaseFrameworkAutoConfiguration {
     @Bean
     public InterceptorConfig interceptorConfig() {
         return new InterceptorConfig();
+    }
+
+    @Bean
+    public Swagger2Config swagger2Config(SwaggerProperties swaggerProperties) {
+        return new Swagger2Config(swaggerProperties);
+    }
+
+    @Bean
+    public BaseWebMvcConfig baseWebMvcConfig(BaseProperties baseProperties) {
+        return new BaseWebMvcConfig(baseProperties);
     }
 
 }

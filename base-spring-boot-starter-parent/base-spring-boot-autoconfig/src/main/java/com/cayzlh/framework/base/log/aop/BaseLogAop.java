@@ -10,7 +10,7 @@ package com.cayzlh.framework.base.log.aop;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.cayzlh.framework.base.config.BaseProperties;
+import com.cayzlh.framework.base.config.properties.BaseProperties;
 import com.cayzlh.framework.base.context.BaseContextHolder;
 import com.cayzlh.framework.base.log.annotation.Module;
 import com.cayzlh.framework.base.log.annotation.OperationLog;

@@ -10,4 +10,10 @@ cayzlh:
         exclude-paths: /xxx
         request-log-format: true
         response-log-format: true
-      convertable: true
+      swagger:
+        enable: true
+        base-package: com.cayzlh.framewrok.base.sample.controller;
+      project-name: ${spring.application.name}
+spring:
+  application:
+    name: base-sample-demo

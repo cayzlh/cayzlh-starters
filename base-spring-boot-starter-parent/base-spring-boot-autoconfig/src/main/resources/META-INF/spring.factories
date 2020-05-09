@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
  com.cayzlh.framework.base.config.BaseFrameworkAutoConfiguration,\
-  com.cayzlh.framework.config.CommonsConfiguration
+  com.cayzlh.framework.config.CommonsConfiguration,\
+  com.cayzlh.framework.base.config.Swagger2Config

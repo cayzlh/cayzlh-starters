@@ -1,4 +1,11 @@
-package com.cayzlh.framework.base.config;
+/*
+ * Copyright (c) 2020.  All rights reserved.
+ *
+ * BLOG:  https://blog.cayzlh.com
+ * GITHUB:  https://github.com/cayzlh
+ */
+
+package com.cayzlh.framework.base.config.properties;
 
 import java.util.Set;
 import lombok.Data;
@@ -14,6 +21,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class BaseProperties {
 
     /**
+     * 项目名称
+     */
+    private String projectName;
+
+    /**
      * 是否将转换成统一的返回格式 如：{"msg":"completed success.","code":0,"data":"test1","requestId":"6892435279"}
      */
     private Boolean convertable = true;
@@ -22,6 +34,14 @@ public class BaseProperties {
      * 对lockback的配置
      */
     private Log log;
+
+    /**
+     * 项目静态资源访问配置
+     */
+    private String resourceHandlers = "/static/**=classpath:/static/\n"
+            + "        swagger-ui.html=classpath:/META-INF/resources/\n"
+            + "        /webjars/**=classpath:/META-INF/resources/webjars/\n"
+            + "        doc.html=classpath:/META-INF/resources/";
 
     @Data
     public static class Log {
