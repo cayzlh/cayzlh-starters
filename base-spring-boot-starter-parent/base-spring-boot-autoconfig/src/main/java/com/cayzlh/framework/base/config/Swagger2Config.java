@@ -12,6 +12,7 @@ import com.cayzlh.framework.base.config.properties.SwaggerProperties;
 import com.cayzlh.framework.base.controller.CsrfController;
 import com.cayzlh.framework.base.controller.IndexController;
 import com.cayzlh.framework.base.exception.SwaggerConfigException;
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -53,6 +54,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Slf4j
 @Configuration
 @EnableSwagger2
+@EnableKnife4j
 @ConditionalOnProperty(value = {"cayzlh.framework.base.swagger.enable"})
 public class Swagger2Config {
 

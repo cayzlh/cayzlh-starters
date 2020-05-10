@@ -47,9 +47,15 @@ public class BaseProperties {
      * 项目静态资源访问配置
      */
     private String resourceHandlers = "/static/**=classpath:/static/\n"
-            + "        swagger-ui.html=classpath:/META-INF/resources/\n"
-            + "        /webjars/**=classpath:/META-INF/resources/webjars/\n"
-            + "        doc.html=classpath:/META-INF/resources/";
+            + "swagger-ui.html=classpath:/META-INF/resources/\n"
+            + "/webjars/**=classpath:/META-INF/resources/webjars/\n"
+            + "doc.html=classpath:/META-INF/resources/\n"
+            + "/favicon.ico=classpath:/META-INF/resources/\n"
+            + "/service-worker.js=classpath:/META-INF/resources/\n"
+            + "/precache-manifest.**.js=classpath:/META-INF/resources/\n"
+            + "/index.html=classpath:/META-INF/resources/\n"
+            + "/robots.txt=classpath:/META-INF/resources/\n"
+            + "/manifest.json=classpath:/META-INF/resources/\n";
 
     @Data
     public static class Log {

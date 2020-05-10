@@ -15,6 +15,13 @@ cayzlh:
       swagger:
         enable: true
         base-package: com.cayzlh.framewrok.base.sample.controller;
+        contact-name: 陈爸爸
+        contact-email: chenanyu@cayzlh.com
+        contact-url: https://blog.cayzlh.com
+        description: Base测试接口
+        title: Base测试接口title
+        version: 1.0.1
+        url: localhost:8081
       project-name: ${spring.application.name}
 spring:
   application:
