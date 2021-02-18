@@ -34,7 +34,7 @@
     <mapstruct.version>1.3.1.Final</mapstruct.version>
     <fastjson.version>1.2.68</fastjson.version>
     <lombok.version>1.18.10</lombok.version>
-    <jackson.version>2.10.3</jackson.version>
+    <jackson.version>2.12.1</jackson.version>
     <swagger2.version>2.9.2</swagger2.version>
     <knife4j.version>2.0.2</knife4j.version>
   </properties>
