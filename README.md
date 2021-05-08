@@ -11,8 +11,8 @@
   <a href="https://github.com/spring-projects/spring-boot">
     <img alt="spring boot version" src="https://img.shields.io/badge/spring%20boot-2.2.1.RELEASE-brightgreen">
   </a>
-  <a href="https://www.apache.org/licenses/LICENSE-2.0">
-    <img alt="code style" src="https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square">
+  <a href="https://github.com/cayzlh/cayzlh-starters/blob/master/LICENSE">
+    <img alt="code style" src="https://img.shields.io/github/license/cayzlh/cayzlh-starters">
   </a>
 </p>
 
