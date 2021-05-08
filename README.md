@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/cayzlh/cayzlh-starters">
-   <img alt="spring-boot-plus logo" style="border-radius: 50%;" src="https://cdn.jsdelivr.net/gh/cayzlh/git-img-repository@master/2020/04/26/VWLI6t.png">
+   <img alt="spring-boot-plus logo" style="border-radius: 50%;" src="https://cdn.jsdelivr.net/gh/cayzlh/git-img-repository@master/2021/05/JhzlK7.svg">
   </a>
 </p>
 
