@@ -405,6 +405,6 @@ public String test1() throws InterruptedException {
 
 ## License
 
-[MIT License](https://github.com/cayzlh/cayzlh.github.io/blob/master/LICENSE)
+[MIT License](https://github.com/cayzlh/cayzlh-starters/blob/master/LICENSE)
 
 Copyright (c) 2020 cayzlh
