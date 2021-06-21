@@ -6,7 +6,7 @@
 
   <groupId>com.cayzlh</groupId>
   <artifactId>cayzlh-starters</artifactId>
-  <version>1.0.2</version>
+  <version>1.2.0</version>
 
   <packaging>pom</packaging>
   <name>starters</name>
@@ -14,11 +14,12 @@
 
   <modules>
     <module>commons</module>
-    <module>base-spring-boot-starter-parent</module>
-    <module>redis-distributedlock-spring-boot-starter-parent</module>
-    <module>zk-distributedlock-spring-boot-starter-parent</module>
-    <module>redisson-distributedlock-spring-boot-starter-parent</module>
-    <module>jwt-spring-boot-starter-parent</module>
+    <module>base-spring-boot</module>
+    <module>redis-distributedlock-spring-boot</module>
+    <module>zk-distributedlock-spring-boot</module>
+    <module>redisson-distributedlock-spring-boot</module>
+    <module>jwt-spring-boot</module>
+    <module>elasticsearch-spring-boot</module>
   </modules>
 
   <properties>
