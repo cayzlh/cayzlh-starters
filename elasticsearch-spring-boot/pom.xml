@@ -25,9 +25,56 @@
     <module>elasticsearch-spring-boot-starter</module>
   </modules>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.cayzlh</groupId>
+        <artifactId>elasticsearch-spring-boot-autoconfig</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.cayzlh</groupId>
+        <artifactId>elasticsearch-spring-boot-starter</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.elasticsearch.client</groupId>
+        <artifactId>elasticsearch-rest-high-level-client</artifactId>
+        <version>${elasticsearch.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.elasticsearch</groupId>
+        <artifactId>elasticsearch</artifactId>
+        <version>${elasticsearch.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.elasticsearch.client</groupId>
+        <artifactId>elasticsearch-rest-client</artifactId>
+        <version>${elasticsearch.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.elasticsearch.plugin</groupId>
+        <artifactId>rank-eval-client</artifactId>
+        <version>${elasticsearch.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.elasticsearch.plugin</groupId>
+        <artifactId>lang-mustache-client</artifactId>
+        <version>${elasticsearch.version}</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
   <properties>
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
+    <elasticsearch.version>7.10.1</elasticsearch.version>
   </properties>
 
 </project>

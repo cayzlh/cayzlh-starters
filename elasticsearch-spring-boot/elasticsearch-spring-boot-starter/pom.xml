@@ -18,6 +18,13 @@
 
   <artifactId>elasticsearch-spring-boot-starter</artifactId>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.cayzlh</groupId>
+      <artifactId>elasticsearch-spring-boot-autoconfig</artifactId>
+    </dependency>
+  </dependencies>
+
   <properties>
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
