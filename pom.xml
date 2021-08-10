@@ -27,16 +27,15 @@
     <springboot.version>2.2.1.RELEASE</springboot.version>
     <hutool.version>5.1.1</hutool.version>
     <curator.version>4.2.0</curator.version>
-    <guava.version>[30.0-jre,)</guava.version>
+    <guava.version>30.1.1-jre</guava.version>
     <github.global.server>github</github.global.server>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jwt.version>3.10.2</jwt.version>
-    <shiro.version>[1.6.0,)</shiro.version>
-    <shiro-spring.version>[1.7.0,)</shiro-spring.version>
+    <shiro.version>1.7.1</shiro.version>
+    <shiro-spring.version>1.7.1</shiro-spring.version>
     <mapstruct.version>1.3.1.Final</mapstruct.version>
     <fastjson.version>1.2.68</fastjson.version>
     <lombok.version>1.18.10</lombok.version>
-    <jackson.version>[2.10.5.1,)</jackson.version>
     <swagger2.version>2.9.2</swagger2.version>
     <knife4j.version>2.0.2</knife4j.version>
   </properties>
@@ -204,24 +203,6 @@
         <groupId>com.alibaba</groupId>
         <artifactId>fastjson</artifactId>
         <version>${fastjson.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
-        <version>${jackson.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-annotations</artifactId>
-        <version>${jackson.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>${jackson.version}</version>
       </dependency>
 
       <dependency>

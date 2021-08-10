@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.http.MediaType;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +40,7 @@ public class AppController {
         this.loginService = loginService;
     }
 
-    @PostMapping("login")
+    @PostMapping(value = "login", produces = MediaType.APPLICATION_JSON_VALUE)
     public LoginUserTokenVo login(@RequestBody LoginParam loginParam, HttpServletResponse response) {
         LoginUserTokenVo loginUserTokenVo = loginService.login(loginParam);
         response.setHeader(JwtTokenUtil.getTokenName(), loginUserTokenVo.getToken());
