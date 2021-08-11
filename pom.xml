@@ -6,7 +6,7 @@
 
   <groupId>com.cayzlh</groupId>
   <artifactId>cayzlh-starters</artifactId>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
 
   <packaging>pom</packaging>
   <name>starters</name>
@@ -238,6 +238,19 @@
     </dependencies>
   </dependencyManagement>
 
+  <distributionManagement>
+    <repository>
+      <id>releases</id>
+      <name>Releases</name>
+      <url>http://192.168.1.233:8886/repository/maven-releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>Snapshot</name>
+      <url>http://192.168.1.233:8886/repository/maven-snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <build>
     <plugins>
       <plugin>
@@ -278,40 +291,6 @@
         <configuration>
           <generateBackupPoms>false</generateBackupPoms>
         </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.8.2</version>
-        <configuration>
-          <altDeploymentRepository>
-            internal.repo::default::file://${project.build.directory}/maven-repo
-          </altDeploymentRepository>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>com.github.github</groupId>
-        <artifactId>site-maven-plugin</artifactId>
-        <version>0.12</version>
-        <configuration>
-          <message>🐳 deploy maven artifacts, version: ${project.version}</message>
-          <noJekyll>true</noJekyll>
-          <outputDirectory>${project.build.directory}/maven-repo</outputDirectory><!--本地jar地址-->
-          <branch>refs/heads/master</branch><!--分支的名称-->
-          <merge>true</merge>
-          <includes>
-            <include>**/*</include>
-          </includes>
-          <repositoryName>maven-repo</repositoryName><!--对应github上创建的仓库名称 name-->
-          <repositoryOwner>cayzlh</repositoryOwner><!--github 仓库所有者即登录用户名-->
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>site</goal>
-            </goals>
-            <phase>deploy</phase>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

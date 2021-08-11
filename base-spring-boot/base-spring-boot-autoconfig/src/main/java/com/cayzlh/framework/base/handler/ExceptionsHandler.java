@@ -14,19 +14,28 @@ import com.cayzlh.framework.common.BaseResponse;
 import com.cayzlh.framework.base.context.BaseContextHolder;
 import com.cayzlh.framework.exception.CommonException;
 import com.cayzlh.framework.util.AnsiUtil;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.Ansi.Color;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -69,6 +78,7 @@ public class ExceptionsHandler {
             HttpClientErrorException.class,
             IllegalArgumentException.class,
             AuthenticationException.class,
+            ConstraintViolationException.class,
             Exception.class
     })
     public final ResponseEntity<BaseResponse<?>> handleExceptions(HttpServletRequest req,
@@ -159,8 +169,12 @@ public class ExceptionsHandler {
         } else if (e instanceof MethodArgumentNotValidException) {
             status = BAD_REQUEST;
             MethodArgumentNotValidException ex = (MethodArgumentNotValidException) e;
+            List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+            List<String> collect = fieldErrors.stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
             response.setCode(BAD_REQUEST.value());
-            response.setMsg(ex.getMessage());
+            response.setMsg(StringUtils.join(collect,","));
             response.setRequestId(BaseContextHolder.getRequestId());
         } else if (e instanceof MissingServletRequestPartException) {
             status = BAD_REQUEST;
@@ -171,8 +185,23 @@ public class ExceptionsHandler {
         } else if (e instanceof BindException) {
             status = BAD_REQUEST;
             BindException ex = (BindException) e;
+            BindingResult bindingResult = ex.getBindingResult();
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+            List<String> collect = fieldErrors.stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
             response.setCode(BAD_REQUEST.value());
-            response.setMsg(ex.getMessage());
+            response.setMsg(StringUtils.join(collect, ","));
+            response.setRequestId(BaseContextHolder.getRequestId());
+        } else if (e instanceof ConstraintViolationException) {
+            status = BAD_REQUEST;
+            ConstraintViolationException ex = (ConstraintViolationException) e;
+            Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
+            List<String> collect = constraintViolations.stream()
+                    .map(ConstraintViolation::getMessage)
+                    .collect(Collectors.toList());
+            response.setCode(BAD_REQUEST.value());
+            response.setMsg(StringUtils.join(collect, ","));
             response.setRequestId(BaseContextHolder.getRequestId());
         } else if (e instanceof AsyncRequestTimeoutException) {
             status = SERVICE_UNAVAILABLE;
