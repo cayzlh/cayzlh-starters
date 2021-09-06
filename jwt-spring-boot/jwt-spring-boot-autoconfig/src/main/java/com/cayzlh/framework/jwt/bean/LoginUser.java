@@ -7,6 +7,7 @@
 package com.cayzlh.framework.jwt.bean;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -41,5 +42,7 @@ public class LoginUser implements Serializable {
     private String roleCode;
 
     private Set<String> permissionCodes;
+
+    private Map<String, Object> params;
 
 }

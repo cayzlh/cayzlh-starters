@@ -13,6 +13,8 @@ import lombok.EqualsAndHashCode;
 @Data
 public class BusinessException extends CommonException {
 
+    private static final long serialVersionUID = 9212318127410894872L;
+
     public BusinessException(Integer code, String msg) {
         super(code, msg);
     }

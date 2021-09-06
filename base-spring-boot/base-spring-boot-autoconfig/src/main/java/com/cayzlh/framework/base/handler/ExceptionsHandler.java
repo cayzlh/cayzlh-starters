@@ -10,6 +10,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE;
 
 import cn.hutool.json.JSONUtil;
+import com.cayzlh.framework.base.exception.BusinessException;
 import com.cayzlh.framework.common.BaseResponse;
 import com.cayzlh.framework.base.context.BaseContextHolder;
 import com.cayzlh.framework.exception.CommonException;
@@ -84,16 +85,19 @@ public class ExceptionsHandler {
     public final ResponseEntity<BaseResponse<?>> handleExceptions(HttpServletRequest req,
             HttpServletResponse rsp, Exception e) {
         BaseResponse<?> response = new BaseResponse<>();
-        HttpStatus status = HttpStatus.OK;
+        HttpStatus status;
         String requestURI = req.getRequestURI();
         if (e instanceof CommonException) {
             CommonException ce = (CommonException) e;
+            status = INTERNAL_SERVER_ERROR;
+            if (e instanceof BusinessException) {
+                status = HttpStatus.OK;
+            }
             response.setCode(
                     (null == ce.getErrorCode()) ? HttpStatus.INTERNAL_SERVER_ERROR.value()
                             : ce.getErrorCode());
             response.setMsg(ce.getMessage());
             response.setRequestId(BaseContextHolder.getRequestId());
-            status = INTERNAL_SERVER_ERROR;
         } else if (e instanceof AuthenticationException) {
             AuthenticationException ae = (AuthenticationException) e;
             response.setCode(UNAUTHORIZED.value());
