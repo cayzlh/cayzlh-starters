@@ -23,7 +23,7 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <springboot.version>2.2.1.RELEASE</springboot.version>
+    <springboot.version>2.5.15</springboot.version>
     <hutool.version>5.1.1</hutool.version>
     <curator.version>4.2.0</curator.version>
     <guava.version>[30.0-jre,)</guava.version>
