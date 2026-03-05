@@ -1,31 +1,13 @@
 package com.cayzlh.framework.base.handler;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
-import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
-import static org.springframework.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE;
-
-import cn.hutool.json.JSONUtil;
+import com.cayzlh.framework.base.context.BaseContextHolder;
 import com.cayzlh.framework.base.exception.BusinessException;
 import com.cayzlh.framework.common.BaseResponse;
-import com.cayzlh.framework.base.context.BaseContextHolder;
 import com.cayzlh.framework.exception.CommonException;
 import com.cayzlh.framework.util.AnsiUtil;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.Ansi.Color;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
@@ -50,6 +32,16 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpStatus.*;
 
 /**
  * @author cayzlh
