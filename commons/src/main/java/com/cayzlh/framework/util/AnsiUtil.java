@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020.  All rights reserved.
  *
- * BLOG:  https://blog.cayzlh.com
+ * BLOG:  https://cayzlh.com
  * GITHUB:  https://github.com/cayzlh
  */
 
