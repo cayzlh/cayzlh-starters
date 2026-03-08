@@ -248,12 +248,12 @@
 
   <distributionManagement>
     <repository>
-      <id>ts-nexus-releases</id>
+      <id>cayzlh-nexus-releases</id>
       <name>Releases</name>
       <url>https://ts-nexus.cayzlh.com/repository/maven-releases</url>
     </repository>
     <snapshotRepository>
-      <id>ts-nexus-snapshots</id>
+      <id>cayzlh-nexus-snapshots</id>
       <name>Snapshot</name>
       <url>https://ts-nexus.cayzlh.com/repository/maven-snapshots</url>
     </snapshotRepository>
