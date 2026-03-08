@@ -248,14 +248,14 @@
 
   <distributionManagement>
     <repository>
-      <id>releases</id>
+      <id>ts-nexus-releases</id>
       <name>Releases</name>
-      <url>http://192.168.1.233:8886/repository/maven-releases</url>
+      <url>https://ts-nexus.cayzlh.com/repository/maven-releases</url>
     </repository>
     <snapshotRepository>
-      <id>snapshots</id>
+      <id>ts-nexus-snapshots</id>
       <name>Snapshot</name>
-      <url>http://192.168.1.233:8886/repository/maven-snapshots</url>
+      <url>https://ts-nexus.cayzlh.com/repository/maven-snapshots</url>
     </snapshotRepository>
   </distributionManagement>
 
