@@ -6,7 +6,7 @@
 
   <groupId>com.cayzlh</groupId>
   <artifactId>cayzlh-starters</artifactId>
-  <version>1.3.0</version>
+  <version>1.3.1</version>
 
   <packaging>pom</packaging>
   <name>starters</name>
@@ -248,12 +248,12 @@
 
   <distributionManagement>
     <repository>
-      <id>ts-nexus-releases</id>
+      <id>cayzlh-nexus-releases</id>
       <name>Releases</name>
       <url>https://ts-nexus.cayzlh.com/repository/maven-releases</url>
     </repository>
     <snapshotRepository>
-      <id>ts-nexus-snapshots</id>
+      <id>cayzlh-nexus-snapshots</id>
       <name>Snapshot</name>
       <url>https://ts-nexus.cayzlh.com/repository/maven-snapshots</url>
     </snapshotRepository>

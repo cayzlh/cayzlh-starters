@@ -86,13 +86,28 @@ public class LoginRedisServiceImpl implements LoginRedisService {
         String loginTokenRedisKey = String.format(CommonRedisKey.LOGIN_TOKEN, tokenMd5);
         redisUtil.setEx(loginTokenRedisKey, JSONUtil.toJsonStr(jwtTokenRedisVo),
                 expireDuration.getSeconds(), TimeUnit.SECONDS);
-        // 2. username:loginSysUserRedisVo
-        redisUtil.setEx(String.format(CommonRedisKey.LOGIN_USER, username),
-                JSONUtil.toJsonStr(loginUserRedisBo),
-                expireDuration.getSeconds(), TimeUnit.SECONDS);
-        // 3. salt hash,方便获取盐值鉴权
-        redisUtil.setEx(String.format(CommonRedisKey.LOGIN_SALT, username), salt,
-                expireDuration.getSeconds(), TimeUnit.SECONDS);
+
+        // 2. username:loginSysUserRedisVo - 只在不存在时设置，避免覆盖其他端的信息
+        String loginUserKey = String.format(CommonRedisKey.LOGIN_USER, username);
+        if (!redisUtil.hasKey(loginUserKey)) {
+            redisUtil.setEx(loginUserKey,
+                    JSONUtil.toJsonStr(loginUserRedisBo),
+                    expireDuration.getSeconds(), TimeUnit.SECONDS);
+        } else {
+            // 如果已存在，只更新过期时间
+            redisUtil.expire(loginUserKey, expireDuration.getSeconds(), TimeUnit.SECONDS);
+        }
+
+        // 3. salt hash,方便获取盐值鉴权 - 只在不存在时设置
+        String saltKey = String.format(CommonRedisKey.LOGIN_SALT, username);
+        if (!redisUtil.hasKey(saltKey)) {
+            redisUtil.setEx(saltKey, salt,
+                    expireDuration.getSeconds(), TimeUnit.SECONDS);
+        } else {
+            // 如果已存在，只更新过期时间
+            redisUtil.expire(saltKey, expireDuration.getSeconds(), TimeUnit.SECONDS);
+        }
+
         // 4. login user token
         redisUtil.setEx(String.format(CommonRedisKey.LOGIN_USER_TOKEN, username, tokenMd5),
                 loginTokenRedisKey, expireDuration.getSeconds(), TimeUnit.SECONDS);
@@ -142,14 +157,22 @@ public class LoginRedisServiceImpl implements LoginRedisService {
             throw new IllegalArgumentException("username不能为空");
         }
         String tokenMd5 = DigestUtils.md5Hex(token);
+
         // 1. delete tokenMd5
         redisUtil.delete(String.format(CommonRedisKey.LOGIN_TOKEN, tokenMd5));
-        // 2. delete username
-        redisUtil.delete(String.format(CommonRedisKey.LOGIN_USER, username));
-        // 3. delete salt
-        redisUtil.delete(String.format(CommonRedisKey.LOGIN_SALT, username));
+
         // 4. delete user token
         redisUtil.delete(String.format(CommonRedisKey.LOGIN_USER_TOKEN, username, tokenMd5));
+
+        // 检查是否还有其他有效 token
+        Set<String> remainingTokens = redisUtil.keys(String.format(CommonRedisKey.LOGIN_USER_ALL_TOKEN, username));
+        if (CollectionUtils.isEmpty(remainingTokens)) {
+            // 如果没有其他有效 token，才删除用户信息和盐值
+            // 2. delete username
+            redisUtil.delete(String.format(CommonRedisKey.LOGIN_USER, username));
+            // 3. delete salt
+            redisUtil.delete(String.format(CommonRedisKey.LOGIN_SALT, username));
+        }
     }
 
     @Override
