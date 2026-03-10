@@ -87,24 +87,22 @@ public class LoginRedisServiceImpl implements LoginRedisService {
         redisUtil.setEx(loginTokenRedisKey, JSONUtil.toJsonStr(jwtTokenRedisVo),
                 expireDuration.getSeconds(), TimeUnit.SECONDS);
 
-        // 2. username:loginSysUserRedisVo - 只在不存在时设置，避免覆盖其他端的信息
+        // 2. username:loginSysUserRedisVo - 优先使用已存在的用户信息，只更新过期时间
         String loginUserKey = String.format(CommonRedisKey.LOGIN_USER, username);
         if (!redisUtil.hasKey(loginUserKey)) {
             redisUtil.setEx(loginUserKey,
                     JSONUtil.toJsonStr(loginUserRedisBo),
                     expireDuration.getSeconds(), TimeUnit.SECONDS);
         } else {
-            // 如果已存在，只更新过期时间
             redisUtil.expire(loginUserKey, expireDuration.getSeconds(), TimeUnit.SECONDS);
         }
 
-        // 3. salt hash,方便获取盐值鉴权 - 只在不存在时设置
+        // 3. salt hash,方便获取盐值鉴权 - 优先使用已存在的 salt，只更新过期时间，确保同一用户用同一个 salt 验证
         String saltKey = String.format(CommonRedisKey.LOGIN_SALT, username);
         if (!redisUtil.hasKey(saltKey)) {
             redisUtil.setEx(saltKey, salt,
                     expireDuration.getSeconds(), TimeUnit.SECONDS);
         } else {
-            // 如果已存在，只更新过期时间
             redisUtil.expire(saltKey, expireDuration.getSeconds(), TimeUnit.SECONDS);
         }
 
@@ -117,9 +115,17 @@ public class LoginRedisServiceImpl implements LoginRedisService {
     public void refreshLoginInfo(String oldToken, String username, JwtToken newJwtToken) {
         // 获取缓存的登录用户信息
         LoginUserRedis loginUserRedisBo = getLoginUserRedisBo(username);
-        // 删除之前的token信息
-        deleteLoginInfo(oldToken, username);
-        // 缓存登录信息
+
+        // token
+        String oldTokenMd5 = DigestUtils.md5Hex(oldToken);
+
+        // 只删除旧 token 相关的键，但保留用户信息和盐值
+        // 1. delete old tokenMd5
+        redisUtil.delete(String.format(CommonRedisKey.LOGIN_TOKEN, oldTokenMd5));
+        // 2. delete old user token
+        redisUtil.delete(String.format(CommonRedisKey.LOGIN_USER_TOKEN, username, oldTokenMd5));
+
+        // 缓存新的登录信息
         cacheLoginInfo(newJwtToken, loginUserRedisBo);
     }
 
